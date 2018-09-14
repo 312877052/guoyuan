@@ -39,6 +39,10 @@ public class CommodityServiceImpl implements CommodityService {
 		//设置当前页和每页大小
 		PageHelper.startPage(pageNum,pageSize);
 		List<CommodityListVo> commodityList = commodityDao.selectCommodityList();
+		for(CommodityListVo commodityListVo:commodityList) {
+			Integer mouth = commodityListVo.getCommodityTerm()/31+1;
+			commodityListVo.setCommodityTerm(mouth);
+		}
 		PageInfo<CommodityListVo> pageInfo = new PageInfo<>(commodityList);
 		return pageInfo;
 	}
@@ -78,15 +82,15 @@ public class CommodityServiceImpl implements CommodityService {
 		return ServerResponse.createByErrorMessage("商品添加失败");
 	}
 
-	public ServerResponse<CommodityDetailVo> getCommodityDetailById(Long commodityId) {
+	public CommodityDetailVo getCommodityDetailById(Long commodityId) {
 		Commodity commodity = commodityDao.selectCommodityById(commodityId);
 		if(commodity == null) {
-			return ServerResponse.createByErrorMessage("商品品已下架");
+			return null;
 		}
 		CommodityDetailVo detailVo = assembleCommodityDetailVo(commodity);
 		String dec = commodityDetailDao.selectCommodityDecById(commodityId);
 		detailVo.setCommodityDesc(dec);
-		return ServerResponse.createBySuccess(detailVo);
+		return detailVo;
 	}
 	
 	private CommodityDetailVo assembleCommodityDetailVo(Commodity commodity) {

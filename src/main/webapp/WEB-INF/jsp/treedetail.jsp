@@ -7,9 +7,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>订单信息</title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/fruitLuck.css" />
+		<script src="${pageContext.request.contextPath }/js/mui.min.js"></script>
+		<link href="${pageContext.request.contextPath }/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/css/fruitLuck.css" />
 	</head>
 
 	<body>
@@ -41,16 +41,16 @@
 				<div class="mui-slider-group mui-slider-loop">
 					<!--支持循环，需要重复图片节点-->
 					<div class="mui-slider-item mui-slider-item-duplicate">
-						<a href="#"><img src="4.jpg" /></a>
+						<a href="#"><img src="/pic/${commodityDetail.commodityMainPho }" /></a>
 					</div>
 					<div class="mui-slider-item">
-						<a href="#"><img src="img/banner-1.png" /></a>
+						<a href="#"><img src="/pic/${commodityDetail.commoditySubPho1 }" /></a>
 					</div>
 					<div class="mui-slider-item">
-						<a href="#"><img src="img/banner-2.png" /></a>
+						<a href="#"><img src="/pic/${commodityDetail.commoditySubPho2 }" /></a>
 					</div>
 					<div class="mui-slider-item">
-						<a href="#"><img src="img/banner-3.png" /></a>
+						<a href="#"><img src="/pic/${commodityDetail.commoditySubPho3 }" /></a>
 					</div>
 					<!--支持循环，需要重复图片节点-->
 					<!-- <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="1.jpg" /></a></div>-->
@@ -61,16 +61,16 @@
 				<table id="buyMesTable">
 					<tr>
 						<td>
-							<p><b>苹果一期</b></p>
+							<p><b>${commodityDetail.commodityName }</b></p>
 						</td>
 						<td></td>
 						<td>
-							<p><b>￥200.0</b>/株</p>
+							<p><b>￥${commodityDetail.commodityPrice }</b>/株</p>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<p>共计 2000 株 已售 1400 株</p>
+							<p>共计 ${commodityDetail.commodityNum } 株 已售 1400 株</p>
 						</td>
 					</tr>
 					<tr>
@@ -80,7 +80,7 @@
 						</td>
 						<td></td>
 						<td>
-							<input id="buyMesNumber" type="text" value="200" />
+							<input id="buyMesNumber" type="text" value="${commodityDetail.commodityPrice }" />
 							<a href="ensureBuyMessage.html"><button id="buy">购买</button></a>
 						</td>
 					</tr>
@@ -116,7 +116,7 @@
 							<p>生长周期</p>
 						</td>
 						<td class="MesTableRight">
-							<p>6个月</p>
+							<p>${commodityDetail.commodityTerm }个月</p>
 						</td>
 					</tr>
 					<tr>
@@ -124,7 +124,7 @@
 							<p>价格</p>
 						</td>
 						<td class="MesTableRight">
-							<p>￥200.00/株</p>
+							<p>￥${commodityDetail.commodityPrice }/株</p>
 						</td>
 					</tr>
 					<tr>

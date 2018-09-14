@@ -29,6 +29,6 @@ public interface CommodityService {
 	 * @param commodityId
 	 * @return
 	 */
-	public ServerResponse<CommodityDetailVo> getCommodityDetailById(Long commodityId);
+	public CommodityDetailVo getCommodityDetailById(Long commodityId);
 
 }

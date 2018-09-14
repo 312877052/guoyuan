@@ -8,14 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.glut.component.service.CommodityService;
 import cn.edu.glut.model.CommodityDetailVo;
 import cn.edu.glut.model.CommodityListVo;
-import cn.edu.glut.util.ServerResponse;
 
 @Controller
 @RequestMapping("/common")
@@ -30,14 +28,14 @@ public class CommodityAction {
 		PageInfo<CommodityListVo> commodtiypageInfo = commodityService.getCommodityList(pageNum, pageSize);
 		model.addAttribute("commodtiypageInfo", commodtiypageInfo);
 		System.out.println(commodtiypageInfo);
-		return "commodityList";
+		return "treeList";
 	}
 	
 	@RequestMapping(value="/showCommodity",method=RequestMethod.GET)
-	@ResponseBody
-	public ServerResponse<CommodityDetailVo> showCommodityById(Long commodityId) {
-		ServerResponse<CommodityDetailVo> commodityDetailRes= commodityService.getCommodityDetailById(commodityId);
-		return commodityDetailRes;
+	public String showCommodityById(Long commodityId,Model model) {
+		CommodityDetailVo commodityDetailVo= commodityService.getCommodityDetailById(commodityId);
+		model.addAttribute("commodityDetail", commodityDetailVo);
+		return "treedetail";
 	}
 	
 	

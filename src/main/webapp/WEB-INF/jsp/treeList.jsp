@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-    <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>养苗列表</title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/fruitLuck.css" />
+		<script src="${pageContext.request.contextPath }/js/mui.min.js"></script>
+		<link href="${pageContext.request.contextPath }/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/css/fruitLuck.css" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
@@ -37,95 +38,37 @@
     	描述：树苗批次
    -->
 		<div class="mui-content">
-			<a href="buyMessage.html">
+			<c:forEach items="${commodtiypageInfo.list}" var="commodity">
+			<a href="${pageContext.request.contextPath }/common/showCommodity.action?commodityId=${commodity.commodityId}">
 				<div id="1" class="mui-row treeListDiv">
 					<div class="mui-col-sm-5 mui-col-xs-5">
-						<img class="treeListImg" src="img/News.jpg" />
+						<img class="treeListImg" src="/pic/${commodity.commodityMainPho }" />
 					</div>
 					<div class="mui-col-sm-7 mui-col-xs-7">
 						<table>
 							<tr>
 								<td>
-									<p><b>苹果一期</b></p>
+									<p><b>${commodity.commodityName }</b></p>
 								</td>
 								<td>
-									<p><b>￥200.0</b>/株</p>
+									<p><b>￥${commodity.commodityPrice }</b>/株</p>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
-									<p>生长周期：6个月</p>
+									<p>生长周期：${commodity.commodityTerm }个月</p>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
-									<p>预估产量：20kg + 10kg = 30kg</p>
+									<p>预估产量：${commodity.commodityProduct }kg</p>
 								</td>
 							</tr>
 						</table>
 					</div>
 				</div>
 			</a>
-
-			<a href="buyMessage.html">
-				<div id="2" class="mui-row treeListDiv">
-					<div class="mui-col-sm-5 mui-col-xs-5">
-						<img class="treeListImg" src="img/Order.jpg" />
-					</div>
-					<div class="mui-col-sm-7 mui-col-xs-7">
-						<table>
-							<tr>
-								<td>
-									<p><b>青柠二期</b></p>
-								</td>
-								<td>
-									<p><b>￥400.0</b>/株</p>
-									<!--</td>-->
-							</tr>
-							<tr>
-								<td colspan="2">
-									<p>生长周期：4个月</p>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<p>预估产量：20kg + 40kg = 60kg</p>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</a>
-
-			<a href="buyMessage.html">
-				<div id="3" class="mui-row treeListDiv">
-					<div class="mui-col-sm-5 mui-col-xs-5">
-						<img class="treeListImg" src="img/资源 14-100.jpg" />
-					</div>
-					<div class="mui-col-sm-7 mui-col-xs-7">
-						<table>
-							<tr>
-								<td>
-									<p><b>青柠二期</b></p>
-								</td>
-								<td>
-									<p><b>￥400.0</b>/株</p>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<p>生长周期：4个月</p>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<p>预估产量：20kg + 40kg = 60kg</p>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</a>
+			</c:forEach>
 		</div>
 	</body>
 
