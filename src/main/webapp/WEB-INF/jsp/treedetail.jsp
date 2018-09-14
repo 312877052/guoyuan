@@ -80,7 +80,7 @@
 						</td>
 						<td></td>
 						<td>
-							<input id="buyMesNumber" type="text" value="${commodityDetail.commodityPrice }" />
+							<input id="buyMesNumber" type="text" value="1" />
 							<a href="ensureBuyMessage.html"><button id="buy">购买</button></a>
 						</td>
 					</tr>
