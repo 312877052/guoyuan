@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,7 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("common")
 public class CommonAction {
 	
-	@RequestMapping("home")
+	
+	@RequestMapping("/{page}")
+	public String showPage(@PathVariable String page) {
+		return page;
+	}
+	
+	/*@RequestMapping("home")
 	public String home() {
 		return "home";
 	}
@@ -58,4 +65,5 @@ public class CommonAction {
 	public String regist() {
 		return "register";
 	}
+	*/
 }
