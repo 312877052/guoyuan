@@ -75,11 +75,11 @@
 				<table class="bingoTable">
 					<tr>
 						<td class="bingo">
-							<a id="buyTreeHomeIcon" href="${pageContext.request.contextPath}/commom/treeList.action"><img src="${pageContext.request.contextPath}/img/KeepTree.jpg" class="bingoImg"></a><br>买苗</td>
+							<a id="buyTreeHomeIcon" href="${pageContext.request.contextPath}/common/list.action"><img src="${pageContext.request.contextPath}/img/KeepTree.jpg" class="bingoImg"></a><br>买苗</td>
 						<td class="bingo">
-							<a id="starHomeIcon" href="${pageContext.request.contextPath}/commom/star.action"><img src="${pageContext.request.contextPath}/img/Collection.jpg" class="bingoImg" /></a><br>收藏</td>
+							<a id="starHomeIcon" href="${pageContext.request.contextPath}/common/star.action"><img src="${pageContext.request.contextPath}/img/Collection.jpg" class="bingoImg" /></a><br>收藏</td>
 						<td class="bingo">
-							<a id="buyListHomeIcon" href="${pageContext.request.contextPath}/commom/buyList.action"><img src="${pageContext.request.contextPath}/img/Order.jpg" class="bingoImg" /></a><br>订单</td>
+							<a id="buyListHomeIcon" href="${pageContext.request.contextPath}/common/buyList.action"><img src="${pageContext.request.contextPath}/img/Order.jpg" class="bingoImg" /></a><br>订单</td>
 					</tr>
 					<tr>
 						<td class="bingo bingo_td">
