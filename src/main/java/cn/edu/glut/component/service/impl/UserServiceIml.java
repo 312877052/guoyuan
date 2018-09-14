@@ -50,6 +50,7 @@ public class UserServiceIml implements UserService{
 	public UserInfo regist(UserGrant userGrant , UserInfo user) {
 		//调用dao层保存,先保存userinfo,再保存userGrant
 		userDao.addUserInfo(user);
+		userGrant.setUserId(user.getUserId());
 		userDao.addUserGrant(userGrant);
 		List<UserGrant> grants=new ArrayList<>();
 		grants.add(userGrant);

@@ -33,9 +33,10 @@ public class UserAction {
 
 	@Resource(name = "userService")
 	UserService userService;
-	
-	Logger log=LogManager.getLogger();
-	Logger record=LogManager.getLogger("recordFile");
+
+	Logger log = LogManager.getLogger();
+	Logger record = LogManager.getLogger("recordFile");
+
 	/**
 	 * 发送验证码的方法
 	 * 
@@ -48,21 +49,22 @@ public class UserAction {
 	 */
 	@RequestMapping(value = "smsCode")
 	public String smsCode(@RequestParam(name = "tel", required = true) String tel,
-			@RequestParam(name = "regist", required = false) String regist, HttpServletResponse response, HttpSession session) {
+			@RequestParam(name = "regist", required = false) String regist, HttpServletResponse response,
+			HttpSession session) {
 		// 设置response 文本类型
 		response.setContentType("text/html;charset=utf-8");
 		try {
 			// 如果是注册先判断手机号
 			UserInfo user = userService.getUserByTel(tel);
-			
+
 			if (regist != null && regist.contains("true")) {
 				if (user != null) {
 					response.getWriter().println("1001");
 					return null;
 				}
-			}else {
-				//登录没账号
-				if(user==null) {
+			} else {
+				// 登录没账号
+				if (user == null) {
 					response.getWriter().println("1002");
 					return null;
 				}
@@ -73,7 +75,7 @@ public class UserAction {
 			SendSmsResponse sendSms = null;
 			int checkCode = random.nextInt(899999) + 100000;
 			PrintWriter pw = null;
-			//验证码发送结果 成功true 
+			// 验证码发送结果 成功true
 			boolean flag = userService.smsCode(tel, String.valueOf(checkCode));
 
 			pw = response.getWriter();
@@ -83,17 +85,16 @@ public class UserAction {
 				System.out.println(checkCode);
 				pw.println("true");
 			} else {
-				
+
 				pw.print("false");
 			}
 		} catch (IOException e) {
-			log.error("IOException",e);
+			log.error("IOException", e);
 		}
 
 		return null;
 	}
 
-	
 	/**
 	 * 
 	 * 校验验证码
@@ -111,7 +112,7 @@ public class UserAction {
 			String tel = (String) session.getAttribute("tel");
 			if (tel == null) {
 				resp.getWriter().println("noTelephoneNumber");
-				
+
 				return null;
 			}
 			// 校验验证码页面对验证码进行非空验证
@@ -120,23 +121,21 @@ public class UserAction {
 				resp.getWriter().println("true");
 				// 已通过手机号验证
 				session.setAttribute("validTelephone", true);
-				
+
 				return null;
 			} else {
 				resp.getWriter().println("false");
 				return null;
 			}
 		} catch (IOException e) {
-			log.error("IOException",e);
+			log.error("IOException", e);
 		}
 
 		return null;
 	}
 
-	
-	
 	/**
-	 * 注册功能账号  是已验证的手机号
+	 * 注册功能账号 是已验证的手机号
 	 * 
 	 * @param pwd     密码
 	 * @param request
@@ -144,12 +143,12 @@ public class UserAction {
 	 * @return 返回页面路径待定
 	 */
 	@RequestMapping(value = "regist")
-	public ModelAndView regist(@RequestParam(name = "pwd", required = true) String pwd, HttpServletRequest request,
-			HttpSession session) {
+	public String regist(@RequestParam(name = "pwd", required = true) String pwd, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
 		String tel = (String) session.getAttribute("tel");
 		if (tel == null) {
 			// 不应该进到此处 记录日志
-			record.debug("手机号未发送过验证码");
+			record.debug("手机号未发送过验证码:" + tel);
 			return null;
 		}
 
@@ -163,7 +162,6 @@ public class UserAction {
 			return null;
 		}
 
-		ModelAndView mv = new ModelAndView();
 		UserInfo user = new UserInfo();
 		UserGrant userGrant = new UserGrant();
 
@@ -177,87 +175,100 @@ public class UserAction {
 
 		userGrant.setLoginType("telephone");
 		userGrant.setGrantCode(pwd);
-		//身份码
+		// 身份码
 		userGrant.setIdentifier(tel);
 
 		// 调用service 进行注册
-		user = userService.regist(userGrant,user);
+		user = userService.regist(userGrant, user);
 
-		if (user == null || user.getUserId() == null) {
-			// *******出错记录日志
-			log.error("用户注册失败:"+tel);
-		} else {
-			//注册成功 修改视图返回首页
-			mv.setViewName("home");
+		try (PrintWriter pw = response.getWriter()) {
+
+			if (user == null || user.getUserId() == null) {
+				// *******出错记录日志
+				log.error("用户注册失败:" + tel);
+				pw.print("error");
+			} else {
+				// 注册成功 修改视图返回首页
+				session.setAttribute("user", user);
+				pw.print("true");
+				return null;
+			}
+		} catch (IOException e) {
+			log.error("程序异常", e);
 		}
-		return mv;
+
+		return null;
 	}
 
-	
 	/**
 	 * 手机+密码的登陆方式
-	 * @param tel 手机号
-	 * @param pwd 密码
-	 * @param session 
+	 * 
+	 * @param tel     手机号
+	 * @param pwd     密码
+	 * @param session
 	 * @return 成功返回我的页面 失败提示错误信息
 	 */
-	@RequestMapping(value="login")
-	public ModelAndView login(@RequestParam(name="tel") String tel,@RequestParam(name="pwd") String pwd,HttpSession session) {
-		ModelAndView mv=new ModelAndView();
+	@RequestMapping(value = "login")
+	public ModelAndView login(@RequestParam(name = "tel") String tel, @RequestParam(name = "pwd") String pwd,
+			HttpSession session) {
+		ModelAndView mv = new ModelAndView();
 		UserInfo user = userService.getUserByTel(tel);
-		List<UserGrant> grants=user.getGrants();
-		
-		for(UserGrant grant:grants) {
-			if("telephone".equals(grant.getLoginType())) {
-				//找到密码的授权方式
-				if(pwd.equals(grant.getGrantCode())) {
-					//密码匹配成功
+		List<UserGrant> grants = user.getGrants();
+
+		for (UserGrant grant : grants) {
+			if ("telephone".equals(grant.getLoginType())) {
+				// 找到密码的授权方式
+				if (pwd.equals(grant.getGrantCode())) {
+					// 密码匹配成功
 					session.setAttribute("user", user);
 					return null;
-				}else {
-					//密码错误
+				} else {
+					// 密码错误
 					return null;
 				}
 			}
 		}
-		//找出授权方式为telephone  的授权
-		
+		// 找出授权方式为telephone 的授权
+
 		return null;
 	}
 
 	/**
 	 * 短信验证码登录方式
-	 * @param tel 手机号
+	 * 
+	 * @param tel     手机号
 	 * @param SMSCode 短信验证码
 	 * @return
 	 */
 	@RequestMapping("loginBySMS")
-	public ModelAndView loginBySMS(@RequestParam(name="tel") String tel,@RequestParam(name="SMSCode") String SMSCode,HttpSession session){
-		if(tel==null||tel.trim().equals("")) {
+	public ModelAndView loginBySMS(@RequestParam(name = "tel") String tel,
+			@RequestParam(name = "SMSCode") String SMSCode, HttpSession session) {
+		if (tel == null || tel.trim().equals("")) {
 			log.error("登陆异常，手机号码为空");
 			return null;
 		}
-		ModelAndView result=new ModelAndView();
-		if(tel.equals(session.getAttribute("tel"))&&(Boolean)session.getAttribute("validTelephone")) {
-			UserInfo user=userService.getUserByTel(tel);
+		ModelAndView result = new ModelAndView();
+		if (tel.equals(session.getAttribute("tel")) && (Boolean) session.getAttribute("validTelephone")) {
+			UserInfo user = userService.getUserByTel(tel);
 			result.setViewName("my");
 			session.setAttribute("user", user);
-		}else {
+		} else {
 			log.error("登陆错误，未通过验证");
 			result.setViewName("my");
 		}
-		
+
 		return result;
 	}
 
 	/**
 	 * 返回主页
+	 * 
 	 * @return
 	 */
 	@RequestMapping("home")
 	public String home() {
-		
+
 		return "home";
 	}
-	
+
 }

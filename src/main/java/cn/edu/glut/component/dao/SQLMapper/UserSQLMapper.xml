@@ -16,7 +16,7 @@
 
 
 	<insert id="addUserGrant" parameterType="cn.edu.glut.model.UserGrant" keyProperty="userGrantId" useGeneratedKeys="true">
-   	insert into user_grant values(#{userGrantId},#{user.userId},#{loginType},#{grantCode},#{identifier})
+   	insert into user_grant values(#{userGrantId},#{userId},#{loginType},#{grantCode},#{identifier})
    </insert>
    
    <select id="getUserByTel" parameterType="String" resultMap="user" >
