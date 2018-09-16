@@ -46,27 +46,27 @@
 			<div id="headDiv">
 				<p id="userName">DEMO</p>
 				<p id="userSign">植物可以净化心灵</p>
-				<a href="PersonalInfo.html"><img class="head" src="${pageContext.request.contextPath}/img/阿布.jpg" /></a>
+				<a href="${pageContext.request.contextPath}/common/pearsonalInfo.action"><img class="head" src="${pageContext.request.contextPath}/img/阿布.jpg" /></a>
 			</div>
 
 			<table class="myNavIconFirst">
 				<tr>
 					<td>
-						<a href="star.html"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 1-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/common/star.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 1-100.jpg" /><br /></a>
 					</td>
 					<td>
-						<a href="buyCar.html"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 2-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/common/buyCar.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 2-100.jpg" /><br /></a>
 					</td>
 					<td>
-						<a href="money.html"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 5-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/common/money.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 5-100.jpg" /><br /></a>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<a href="address.html"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 4-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/common/address.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 4-100.jpg" /><br /></a>
 					</td>
 					<td>
-						<a href="Setting.html"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 3-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/common/Setting.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 3-100.jpg" /><br /></a>
 					</td>
 				</tr>
 			</table>

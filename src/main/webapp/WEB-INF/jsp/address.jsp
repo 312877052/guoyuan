@@ -7,9 +7,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>收货地址</title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/banner.css" />
+		<script src="${pageContext.request.contextPath}/js/mui.min.js"></script>
+		<link href="${pageContext.request.contextPath}/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/banner.css" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
@@ -24,13 +24,13 @@
    -->
 		<div class="mui-content">
 			<header class="mui-bar mui-bar-nav">
-				<a href="my.html" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<a href="${pageContext.request.contextPath}/common/my.action" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
 				<h1 class="mui-title">收货地址</h1>
 			</header>
 
 			<div class="mui-content" style="height: 100%;">
 				<div class="consigneeAddress">
-					<a href="addAddress.html">
+					<a href="${pageContext.request.contextPath}/common/addAddress.action">
 
 						<div class="receivingAddress1">
 							<span>Demo</span>
@@ -45,7 +45,7 @@
 				</div>
 
 				<div class="consigneeAddress">
-					<a href="addAddress.html">
+					<a href="${pageContext.request.contextPath}/common/addAddress.action">
 
 						<div class="receivingAddress1">
 							<span>+</span>

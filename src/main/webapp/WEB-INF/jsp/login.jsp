@@ -31,7 +31,7 @@
 			</div>
 
 			<div id="item1" class="mui-control-content mui-active">
-				<form id="sms" action="${pageContext.request.contextPath}/user/loginBySMS.action" method="post" class="mui-input-group mui-table-view" onsubmit="return login(this)">
+				<form id="sms" action="${pageContext.request.contextPath}/user/loginBySMS.action" method="post" class="mui-input-group mui-table-view" >
 							<div class="mui-input-row">
 								<label for="tel1">手机号</label>
 								<input id="tel1" name="tel" type="tel" class="mui-input-clear" />
@@ -41,12 +41,12 @@
 								<input id="smsCode" name="SMSCode" type="text" class="mui-input" />
 								<button id="sendCode" class="mui-btn mui-btn-primary" style="float:right;width:30%;" onClick="return getCheckCode(this)">发送验证码</button>
 							</div>
-							<button id="btn-login" type="submit" class="mui-btn mui-btn-primary mui-btn-block"  >登录</button>
+							<button id="btn-login" type="submit" onclick="return login(this)" class="mui-btn mui-btn-primary mui-btn-block"  >登录</button>
 						</form>
 			</div>
 
-			<div id="item2" class="mui-control-content " onsubmit="return check()">
-				<form  action="/guoyuan/user/login.action" class="mui-input-group" method="post">
+			<div id="item2" class="mui-control-content " >
+				<form  class="mui-input-group" method="post">
 							<div class="mui-input-row">
 								<label for="tel2">手机号</label>
 								<input id="tel2" name="tel" type="tel" class="mui-input-clear" />
@@ -55,11 +55,11 @@
 								<label for="">密码</label>
 								<input id="pwd" name="pwd" type="text" class="mui-input-clear" />
 							</div>
-							<button  type="submit" class="mui-btn mui-btn-primary mui-btn-block" > 登录</button>
+							<button   onclick="return check()" class="mui-btn mui-btn-primary mui-btn-block" > 登录</button>
 						</form>
 			</div>
 		</section>
-		<a href="/guoyuan/common/regist.action" id="gotoregist">快速注册</a>
+		<a href="/guoyuan/common/register.action" id="gotoregist">快速注册</a>
 	</body>
 
 </html>

@@ -7,9 +7,9 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/banner.css" />
-		<script src="js/mui.min.js"></script>
+		<link href="${pageContext.request.contextPath}/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/banner.css" />
+		<script src="${pageContext.request.contextPath}/js/mui.min.js"></script>
 		<script type="text/javascript">
 			mui.init()
 		</script>
@@ -30,7 +30,7 @@
 		<div class="mui-content" style="height:100%;">
 			<div class="shadow"></div>
 			<div class="portrait">
-				<img src="./img/headPortrait.png" class="img_portrait" />
+				<img src="${pageContext.request.contextPath}/img/headPortrait.png" class="img_portrait" />
 			</div>
 			<h3 class="vip"><strong>VIP4</strong></h3>
 			<hr class="hr1" />
@@ -49,7 +49,7 @@
 						</td>
 					</tr>
 				</table>
-				<a href="my.html"><button type="button">修改</button></a>
+				<a href="${pageContext.request.contextPath}/common/my.action"><button type="button">修改</button></a>
 			</div>
 			<hr class="hr2" />
 		</div>

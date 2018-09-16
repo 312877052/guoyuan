@@ -78,9 +78,18 @@ var m=1;
 	 */
 	function login(btn){
 		var result=false;
+		var tel=document.getElementById("tel1").value;
+		if(tel==null||tel.trim()==''){
+			mui.toast("手机号不能为空")
+			return false;
+		}
 		var smsCode=
 		document.getElementById("smsCode").value;
-		if(smsCode!=null||smsCode.trim()!=''){
+		if(smsCode==null||smsCode.trim()==''){
+			mui.toast("验证码不能为空");
+			return false;
+		}
+		
 			mui.ajax("/guoyuan/user/checkSMSCode.action",{
 				data:{
 					'smsCode':smsCode
@@ -100,9 +109,9 @@ var m=1;
 				}
 			});
 			
-		}
+		
 		if(result){
-			btn.submit()
+			return true;
 		}
 	}
 	/**
@@ -120,6 +129,30 @@ var m=1;
 			mui.toast("密码不能为空")
 			return false;
 		}
+		
+		mui.ajax("/guoyuan/user/login.action",{
+			data:{
+				"tel":tel,
+				"pwd":pwd
+			},
+			async: false,
+			success:function(data){
+				if(data.indexOf("true")!=-1){
+					mui.alert("登陆成功","提示",function(){
+						mui.openWindow({
+							 url:'/guoyuan/common/my.action',
+							 id:'my.jsp'
+							 });
+					})
+					
+				}else if(data.indexOf("密码错误")){
+					mui.toast("用户名或密码错误")
+					return false;
+				}
+			}
+			
+			
+		})
 		return true;
 	}
 	/**

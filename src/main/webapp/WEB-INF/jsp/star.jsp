@@ -7,9 +7,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>收藏</title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/fruitLuck.css" />
+		<script src="${pageContext.request.contextPath}/js/mui.min.js"></script>
+		<link href="${pageContext.request.contextPath}/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fruitLuck.css" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
@@ -33,10 +33,10 @@
 
 		<div class="mui-content">
 
-			<a href="buyMessage.html">
+			<a href="${pageContext.request.contextPath}/common/buyMessage.action">
 				<div id="2" class="mui-row treeListDiv">
 					<div class="mui-col-sm-5 mui-col-xs-5">
-						<img class="treeListImg" src="img/Order.jpg" />
+						<img class="treeListImg" src="${pageContext.request.contextPath}/img/Order.jpg" />
 					</div>
 					<div class="mui-col-sm-7 mui-col-xs-7">
 						<table>
@@ -63,10 +63,10 @@
 				</div>
 			</a>
 
-			<a href="buyMessage.html">
+			<a href="${pageContext.request.contextPath}/common/buyMessage.action">
 				<div id="3" class="mui-row treeListDiv">
 					<div class="mui-col-sm-5 mui-col-xs-5">
-						<img class="treeListImg" src="img/资源 14-100.jpg" />
+						<img class="treeListImg" src="${pageContext.request.contextPath}/img/资源 14-100.jpg" />
 					</div>
 					<div class="mui-col-sm-7 mui-col-xs-7">
 						<table>
