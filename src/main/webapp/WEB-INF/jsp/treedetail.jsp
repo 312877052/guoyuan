@@ -70,7 +70,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<p>共计 ${commodityDetail.commodityNum } 株 已售 1400 株</p>
+							<p>共计 ${commodityDetail.commodityNum } 株 已售 ${commodityDetail.commodityNum-commodityDetail.commodityCurrNum }株</p>
 						</td>
 					</tr>
 					<tr>
@@ -80,8 +80,11 @@
 						</td>
 						<td></td>
 						<td>
-							<input id="buyMesNumber" type="text" value="1" />
-							<a href="ensureBuyMessage.html"><button id="buy">购买</button></a>
+							<form action="${pageContext.request.contextPath }/order/ensureOrderDirect.action">
+							<input name="buyNumber" type="text" value="1"/>
+							<input name="commodityId" type="hidden" value="${commodityDetail.commodityId }" />
+							<input id="buy" type="submit" value="购买"/>
+							</form>
 						</td>
 					</tr>
 				</table>
@@ -165,6 +168,7 @@
 		gallery.slider({
 			interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
 		});
+		
 	</script>
 
 </html>

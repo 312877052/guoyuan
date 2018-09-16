@@ -20,7 +20,9 @@ public class Commodity implements Serializable{
 
     private Integer commodityTerm; //果苗种植期限（天）
 
-    private Integer commodityNum;  //商品数量
+    private Integer commodityNum;  //商品总数量
+    
+    private Integer commodityCurrNum; //当前商品数量 
 
     private String commodityVideoUrl; //视频url
 
@@ -151,4 +153,13 @@ public class Commodity implements Serializable{
     public void setCommoditySubPho4(String commoditySubPho4) {
         this.commoditySubPho4 = commoditySubPho4;
     }
+
+	public Integer getCommodityCurrNum() {
+		return commodityCurrNum;
+	}
+
+	public void setCommodityCurrNum(Integer commodityCurrNum) {
+		this.commodityCurrNum = commodityCurrNum;
+	}
+     
 }

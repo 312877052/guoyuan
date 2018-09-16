@@ -18,8 +18,6 @@ public class CommodityListVo implements Serializable{
 
     private Integer commodityTerm; //果苗种植期限（天）
 
-    private Integer commodityNum;  //商品数量
-
     private String commodityProduct; //产量
     
     private BigDecimal commodityPrice; //价格
@@ -59,15 +57,7 @@ public class CommodityListVo implements Serializable{
 	public void setCommodityTerm(Integer commodityTerm) {
 		this.commodityTerm = commodityTerm;
 	}
-
-	public Integer getCommodityNum() {
-		return commodityNum;
-	}
-
-	public void setCommodityNum(Integer commodityNum) {
-		this.commodityNum = commodityNum;
-	}
-
+	
 	public BigDecimal getCommodityPrice() {
 		return commodityPrice;
 	}
