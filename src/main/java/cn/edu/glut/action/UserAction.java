@@ -209,27 +209,32 @@ public class UserAction {
 	 * @return 成功返回我的页面 失败提示错误信息
 	 */
 	@RequestMapping(value = "login")
-	public ModelAndView login(@RequestParam(name = "tel") String tel, @RequestParam(name = "pwd") String pwd,
-			HttpSession session) {
+	public String login(@RequestParam(name = "tel") String tel, @RequestParam(name = "pwd") String pwd,
+			HttpSession session, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		UserInfo user = userService.getUserByTel(tel);
 		List<UserGrant> grants = user.getGrants();
 
-		for (UserGrant grant : grants) {
-			if ("telephone".equals(grant.getLoginType())) {
-				// 找到密码的授权方式
-				if (pwd.equals(grant.getGrantCode())) {
-					// 密码匹配成功
-					session.setAttribute("user", user);
-					return null;
-				} else {
-					// 密码错误
-					return null;
+		try (PrintWriter pw = response.getWriter()) {
+			for (UserGrant grant : grants) {
+				if ("telephone".equals(grant.getLoginType())) {
+					// 找到密码的授权方式
+					if (pwd.equals(grant.getGrantCode())) {
+						// 密码匹配成功
+						session.setAttribute("user", user);
+						pw.print("true");
+						return null;
+					} else {
+						// 密码错误
+						pw.print("密码错误");
+						return null;
+					}
 				}
 			}
-		}
-		// 找出授权方式为telephone 的授权
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -253,8 +258,8 @@ public class UserAction {
 			result.setViewName("my");
 			session.setAttribute("user", user);
 		} else {
-			log.error("登陆错误，未通过验证");
-			result.setViewName("my");
+			log.error("登陆错误，未通过验证,或遭到恶意分析：+"+tel);
+			result.setViewName("login");
 		}
 
 		return result;
