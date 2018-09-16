@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.glut.component.dao.OrderItemDao" >
+  <resultMap id="orderItemMap" type="OrderItem">
+   	<id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+    <result column="buy_num" jdbcType="INTEGER" property="buyNum" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="commodity_main_pho" jdbcType="VARCHAR" property="commodityMainPho" />
+    <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+ <insert id="insertOrderItem" parameterType="OrderItem">
+ 	INSERT INTO order_item(
+ 	order_id,
+ 	commodity_id,
+ 	user_id,
+ 	buy_num,
+ 	commodity_name,
+ 	commodity_main_pho,
+ 	total_fee)
+	VALUES(
+	#{orderId},
+	#{commodityId},
+	#{userId},
+	#{buyNum},
+	#{commodityName},
+	#{commodityMainPho},
+	#{totalFee})
+ </insert>
+</mapper>

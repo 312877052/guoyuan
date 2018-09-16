@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.glut.component.dao.OrderDao" >
+  <resultMap id="orderResMap" type="Order" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="transaction_num" property="transactionNum" jdbcType="VARCHAR" />
+    <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
+    <result column="post_fee" property="postFee" jdbcType="DECIMAL" />
+    <result column="total_fee" property="totalFee" jdbcType="DECIMAL" />
+    <result column="prefer_fee" property="preferFee" jdbcType="DECIMAL" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="pay_state" property="payState" jdbcType="INTEGER" />
+    <result column="deliver_state" property="deliverState" jdbcType="INTEGER" />
+    <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_mobile" property="receiverMobile" jdbcType="CHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insertSelective" parameterType="Order">
+  INSERT INTO `order`(
+  order_id,
+  user_id,
+  payment_type,
+  payment,
+  post_fee,
+  total_fee,
+  prefer_fee,
+  pay_state,
+  receiver_name,
+  receiver_mobile,
+  receiver_address,
+  create_time)
+	VALUES(
+	#{orderId},
+	#{userId},
+	#{paymentType},
+	#{payment},
+	#{postFee},
+	#{totalFee},
+	#{preferFee},
+	#{payState},
+	#{receiverName},
+	#{receiverMobile},
+	#{receiverAddress},
+	NOW())
+   </insert>
+</mapper>
