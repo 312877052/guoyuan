@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 
+import cn.edu.glut.component.dao.ReceiverAddressMapper;
 import cn.edu.glut.component.dao.UserDao;
 import cn.edu.glut.component.service.UserService;
+import cn.edu.glut.model.ReceiverAddress;
+import cn.edu.glut.model.ReceiverAddressExample;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.SendSMSCode;
@@ -25,7 +28,8 @@ public class UserServiceIml implements UserService{
 	Logger log=LogManager.getLogger();
 	@Resource
 	UserDao userDao;
-	
+	@Resource
+	ReceiverAddressMapper rece;
 	@Override
 	public boolean smsCode(String tel, String checkCode) {
 		SendSmsResponse sendSms=null;
@@ -83,6 +87,23 @@ public class UserServiceIml implements UserService{
 	public UserGrant getUserGrantByTel(String tel) {
 		
 		return userDao.getUserGrantByTel(tel);
+	}
+
+	@Override
+	public List<ReceiverAddress> addAddr(ReceiverAddress ra) {
+		rece.insert(ra);
+		ReceiverAddressExample example=new ReceiverAddressExample();
+		example.createCriteria().andUserIdEqualTo(ra.getUserId());
+		List<ReceiverAddress> addrs=rece.selectByExample(example);
+		return addrs;
+	}
+
+	@Override
+	public List<ReceiverAddress> getReceiverAddress(Integer userId) {
+		ReceiverAddressExample example= new ReceiverAddressExample();
+		example.createCriteria().andUserIdEqualTo(userId);
+		List<ReceiverAddress> addrs=rece.selectByExample(example);
+		return addrs;
 	}
 
 	

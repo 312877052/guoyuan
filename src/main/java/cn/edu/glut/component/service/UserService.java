@@ -1,5 +1,8 @@
 package cn.edu.glut.component.service;
 
+import java.util.List;
+
+import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
 /**
@@ -36,5 +39,9 @@ public interface UserService {
 	 * @return
 	 */
 	UserGrant getUserGrantByTel(String tel);
+
+	List<ReceiverAddress> addAddr(ReceiverAddress ra);
+
+	List<ReceiverAddress> getReceiverAddress(Integer userId);
 	
 }

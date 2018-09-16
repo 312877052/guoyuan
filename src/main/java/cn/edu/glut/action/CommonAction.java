@@ -16,6 +16,7 @@ public class CommonAction {
 	
 	@RequestMapping("/{page}")
 	public String showPage(@PathVariable String page) {
+		System.out.println(page+":嗯嗯");
 		return page;
 	}
 	

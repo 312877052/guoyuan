@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import cn.edu.glut.component.service.UserService;
+import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
 
@@ -275,5 +277,36 @@ public class UserAction {
 
 		return "home";
 	}
-
+/**
+ * 
+ * 添加收货地址
+ * @return
+ */
+	@RequestMapping("addShippingAddr")
+	public ModelAndView addShippingAddr(ReceiverAddress ra,HttpSession session) {
+		UserInfo user= (UserInfo)session.getAttribute("user");
+		ra.setUserId(user.getUserId());
+		ModelAndView mv=new ModelAndView();
+		List<ReceiverAddress> addrs=userService.addAddr(ra);
+		System.out.println(ra.getReceiverAddressId());
+		
+		mv.setViewName("address");
+		mv.addObject("addrs", addrs);
+		
+		
+		return mv;
+	}
+	
+	/**
+	 * 查看收货地址
+	 * @return
+	 */
+	@RequestMapping("address")
+	public ModelAndView address(HttpSession session) {
+		UserInfo user = (UserInfo) session.getAttribute("user");
+		List<ReceiverAddress> addrs= userService.getReceiverAddress(user.getUserId());
+		ModelAndView mv=new ModelAndView("address");
+		mv.addObject("addrs",addrs);
+		return mv;
+	}
 }
