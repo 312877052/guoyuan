@@ -1,13 +1,16 @@
 package cn.edu.glut.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 /**
  * 商品详情vo
  * @author Kuang
  *
  */
-public class CommodityDetailVo {
+public class CommodityDetailVo implements Serializable{
 	
+	private static final long serialVersionUID = -1898011354878815664L;
+
 	private Long commodityId; //商品id
 
     private Long cid;   //类别id
@@ -17,6 +20,8 @@ public class CommodityDetailVo {
     private Integer commodityTerm; //果苗种植期限（天）
 
     private Integer commodityNum;  //商品数量
+    
+    private Integer commodityCurrNum; //当前商品数量 
 
     private String commodityVideoUrl; //视频url
 
@@ -37,6 +42,15 @@ public class CommodityDetailVo {
     private String commoditySubPho4;
     
     private String commodityDesc;   //商品详细描述
+    
+
+	public Integer getCommodityCurrNum() {
+		return commodityCurrNum;
+	}
+
+	public void setCommodityCurrNum(Integer commodityCurrNum) {
+		this.commodityCurrNum = commodityCurrNum;
+	}
 
 	public Long getCommodityId() {
 		return commodityId;

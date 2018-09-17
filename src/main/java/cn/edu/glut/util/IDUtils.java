@@ -24,6 +24,21 @@ public class IDUtils {
 	}
 	
 	/**
+	 * 订单id生成
+	 */
+	public static Long genOrderId() {
+		//取当前时间的长整形值包含毫秒
+		long millis = System.currentTimeMillis();
+		//加上四位随机数
+		Random random = new Random();
+		int end4 = random.nextInt(9999);
+		//如果不足三位前面补0
+		StringBuffer sb = new StringBuffer().append(millis).append(String.format("%04d", end4));
+		long id = new Long(sb.toString());
+		return id;
+	}
+	
+	/**
 	 * 商品id生成
 	 */
 	public static long genCommodityId() {
@@ -39,6 +54,6 @@ public class IDUtils {
 	
 	public static void main(String[] args) {
 		for(int i=0;i< 100;i++)
-		System.out.println(genImageName());
+		System.out.println(genOrderId());
 	}
 }

@@ -8,15 +8,18 @@ import java.math.BigDecimal;
  * @author Kuang
  *
  */
-public class CommodityListVo implements Serializable{
+public class CommodityOrderVo implements Serializable{
 	
-	private static final long serialVersionUID = -8394516480373140195L;
+
+	private static final long serialVersionUID = 1L;
 
 	private Long commodityId; //商品id
 
     private String commodityName; //商品名称+期数
 
     private Integer commodityTerm; //果苗种植期限（天）
+    
+    private Integer commodityCurrNum; //当前商品数量 
 
     private String commodityProduct; //产量
     
@@ -25,6 +28,24 @@ public class CommodityListVo implements Serializable{
     private Integer commodityStatus; //1:在售   2:售完   3:下架
 
     private String commodityMainPho; //主图url
+    
+    private Integer buyNumber;  //购买数量
+    
+	public Integer getBuyNumber() {
+		return buyNumber;
+	}
+
+	public void setBuyNumber(Integer buyNumber) {
+		this.buyNumber = buyNumber;
+	}
+
+	public Integer getCommodityCurrNum() {
+		return commodityCurrNum;
+	}
+
+	public void setCommodityCurrNum(Integer commodityCurrNum) {
+		this.commodityCurrNum = commodityCurrNum;
+	}
 
 	public Long getCommodityId() {
 		return commodityId;
@@ -57,7 +78,7 @@ public class CommodityListVo implements Serializable{
 	public void setCommodityTerm(Integer commodityTerm) {
 		this.commodityTerm = commodityTerm;
 	}
-	
+
 	public BigDecimal getCommodityPrice() {
 		return commodityPrice;
 	}

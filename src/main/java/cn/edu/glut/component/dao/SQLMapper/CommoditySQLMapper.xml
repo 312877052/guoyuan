@@ -7,6 +7,7 @@
     <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
     <result column="commodity_term" property="commodityTerm" jdbcType="INTEGER" />
     <result column="commodity_num" property="commodityNum" jdbcType="INTEGER" />
+    <result column="commodity_currnum" property="commodityCurrNum" jdbcType="INTEGER"/>
     <result column="commodity_video_url" property="commodityVideoUrl" jdbcType="VARCHAR" />
     <result column="commodity_price" property="commodityPrice" jdbcType="DECIMAL" />
     <result column="commodity_product" property="commodityProduct" jdbcType="VARCHAR" />
@@ -18,6 +19,17 @@
     <result column="commodity_sub_pho4" property="commoditySubPho4" jdbcType="VARCHAR" />
   </resultMap>
   <!-- 输出商品列表信息对应的bean (kuang) -->
+  <resultMap id="commodityOrderVoMap" type="CommodityOrderVo" >
+  	<id column="commodity_id" property="commodityId" jdbcType="BIGINT" />
+  	<result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="commodity_term" property="commodityTerm" jdbcType="INTEGER" />
+    <result column="commodity_price" property="commodityPrice" jdbcType="DECIMAL" />
+    <result column="commodity_product" property="commodityProduct" jdbcType="VARCHAR" />
+    <result column="commodity_currnum" property="commodityCurrNum" jdbcType="INTEGER"/>
+    <result column="commodity_status" property="commodityStatus" jdbcType="INTEGER" />
+    <result column="commodity_main_pho" property="commodityMainPho" jdbcType="VARCHAR" />
+  </resultMap>
+    <!-- 输出商品订单列表信息对应的bean (kuang) -->
   <resultMap id="commodityListVoMap" type="CommodityListVo" >
   	<id column="commodity_id" property="commodityId" jdbcType="BIGINT" />
   	<result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
@@ -45,4 +57,22 @@
   <select id="selectCommodityById" parameterType="Long" resultMap="commodityMap">
   	SELECT * FROM commodity_info WHERE commodity_id = #{commodityId}
   </select>
+  <select id="selectCommodityOrderVoById" parameterType="Long" resultMap="commodityOrderVoMap">
+  	SELECT 
+	commodity_id,
+	commodity_name,
+	commodity_price,
+	commodity_currnum,
+	commodity_term,
+	commodity_main_pho,
+	commodity_status,
+	commodity_product 
+	FROM commodity_info WHERE commodity_id = #{commodityId}
+  </select>
+  <select id="selectCommodityNum" parameterType="Long" resultType="Integer">
+  	SELECT commodity_currnum FROM commodity_info WHERE commodity_id = #{commodityId}
+  </select>
+  <update id="updataCommodityNum">
+  	UPDATE commodity_info SET commodity_currnum = #{currnum,jdbcType=INTEGER} WHERE commodity_id = #{commodityId,jdbcType=BIGINT}
+  </update>
 </mapper>

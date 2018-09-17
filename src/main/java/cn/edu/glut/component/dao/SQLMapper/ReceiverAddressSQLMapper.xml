@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.glut.component.dao.ReceiverAddressDao" >
+  <resultMap id="receiverAddressMap" type="ReceiverAddress" >
+    <id column="receiver_address_id" property="receiverAddressId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_mobile" property="receiverMobile" jdbcType="CHAR" />
+    <result column="receiver_state" property="receiverState" jdbcType="VARCHAR" />
+    <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR" />
+    <result column="receiver_district" property="receiverDistrict" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="receiver_postalcode" property="receiverPostalcode" jdbcType="CHAR" />
+    <result column="is_default_address" property="isDefaultAddress" jdbcType="TINYINT" />
+  </resultMap>
+  <select id="selectAddressByDefault" parameterType="Integer" resultMap="receiverAddressMap">
+  	SELECT 
+  	receiver_address_id,
+  	receiver_name,
+  	receiver_mobile,
+  	receiver_state,
+  	receiver_city,
+  	receiver_district,
+  	receiver_address 
+  	FROM `receiver_address` WHERE user_id = #{userId} and is_default_address = 1
+  </select>
+</mapper>

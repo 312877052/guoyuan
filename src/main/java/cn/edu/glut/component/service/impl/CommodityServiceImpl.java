@@ -99,6 +99,7 @@ public class CommodityServiceImpl implements CommodityService {
 		commodityDetailVo.setCid(commodity.getCid());
 		commodityDetailVo.setCommodityName(commodity.getCommodityName());
 		commodityDetailVo.setCommodityNum(commodity.getCommodityNum());
+		commodityDetailVo.setCommodityCurrNum(commodity.getCommodityCurrNum());
 		commodityDetailVo.setCommodityPrice(commodity.getCommodityPrice());
 		commodityDetailVo.setCommodityProduct(commodity.getCommodityProduct());
 		commodityDetailVo.setCommodityStatus(commodity.getCommodityStatus());
