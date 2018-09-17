@@ -3,7 +3,7 @@ package cn.edu.glut.model;
 public class ReceiverAddress {
     private Integer receiverAddressId;
 
-    private Integer userId;
+    private Integer userId;  
 
     private String receiverName;
 
