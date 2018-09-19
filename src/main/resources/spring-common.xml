@@ -83,7 +83,16 @@
 	<context:component-scan
 		base-package="org.lanqiao.component" />
 
+	<!-- 实例化工厂类 -->
+	<bean id="jmsFaction" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://39.108.236.107:61616"></property>
+		<property name="userName" value="admin"></property>
+		<property name="password" value="admin"></property>
+	</bean>
+	<!--  jms消息中间件 connection -->
+	<bean id="jmsConnection" factory-bean="jmsFaction" factory-method="createConnection" init-method="start">
+
+	</bean>
+
 	
-
-
 </beans>

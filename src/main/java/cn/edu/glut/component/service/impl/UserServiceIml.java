@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.jms.Connection;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
+import javax.jms.Session;
 
 import org.apache.catalina.User;
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +26,17 @@ import cn.edu.glut.model.ReceiverAddressExample;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.SendSMSCode;
-//           ↓ bean id
+/**
+ * 
+ * @author jones
+ *
+ */
 @Service("userService")
 public class UserServiceIml implements UserService{
 
 	Logger log=LogManager.getLogger();
+	@Resource(name="jmsConnection")
+	Connection con;
 	@Resource
 	UserDao userDao;
 	@Resource
@@ -104,6 +115,25 @@ public class UserServiceIml implements UserService{
 		example.createCriteria().andUserIdEqualTo(userId);
 		List<ReceiverAddress> addrs=rece.selectByExample(example);
 		return addrs;
+	}
+
+	@Override
+	public MessageConsumer registMessageConsumer(UserInfo user) {
+		//1创建session
+		MessageConsumer consumer = null;
+		try {
+			Session  session=con.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			//2创建目标
+			Destination destination = session.createQueue(user.getTelephone());
+			//3创建消费者
+			consumer = session.createConsumer(destination);
+		} catch (JMSException e) {
+			log.error(e,e);
+			e.printStackTrace();
+		}
+		
+		
+		return consumer;
 	}
 
 	

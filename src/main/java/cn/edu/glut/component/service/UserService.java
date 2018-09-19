@@ -2,6 +2,8 @@ package cn.edu.glut.component.service;
 
 import java.util.List;
 
+import javax.jms.MessageConsumer;
+
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
@@ -43,5 +45,7 @@ public interface UserService {
 	List<ReceiverAddress> addAddr(ReceiverAddress ra);
 
 	List<ReceiverAddress> getReceiverAddress(Integer userId);
+
+	MessageConsumer registMessageConsumer(UserInfo user);
 	
 }

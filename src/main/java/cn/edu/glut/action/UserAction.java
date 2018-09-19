@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.jms.Connection;
+import javax.jms.Destination;
+import javax.jms.MessageConsumer;
+import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,7 +39,7 @@ public class UserAction {
 
 	@Resource(name = "userService")
 	UserService userService;
-
+	
 	Logger log = LogManager.getLogger();
 	Logger record = LogManager.getLogger("recordFile");
 
@@ -224,6 +228,9 @@ public class UserAction {
 					if (pwd.equals(grant.getGrantCode())) {
 						// 密码匹配成功
 						session.setAttribute("user", user);
+						//创建一个jms消费者
+						MessageConsumer consumer=userService.registMessageConsumer(user);
+						session.setAttribute("jmsConsumer", consumer);
 						pw.print("true");
 						return null;
 					} else {
@@ -259,6 +266,8 @@ public class UserAction {
 			UserInfo user = userService.getUserByTel(tel);
 			result.setViewName("my");
 			session.setAttribute("user", user);
+			MessageConsumer consumer=userService.registMessageConsumer(user);
+			session.setAttribute("jmsConsumer", consumer);
 		} else {
 			log.error("登陆错误，未通过验证,或遭到恶意分析：+"+tel);
 			result.setViewName("login");

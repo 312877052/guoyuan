@@ -14,8 +14,12 @@
 	<!-- 将spring容器托管给web容器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		
 	</listener>
 	
+	<listener>
+		<listener-class>cn.edu.glut.component.listener.MySessionListner</listener-class>
+	</listener>
 	
 	<servlet>
 		<servlet-name>spring</servlet-name>
