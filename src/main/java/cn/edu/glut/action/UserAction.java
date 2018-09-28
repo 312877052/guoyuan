@@ -2,6 +2,7 @@ package cn.edu.glut.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -183,9 +184,21 @@ public class UserAction {
 		userGrant.setGrantCode(pwd);
 		// 身份码
 		userGrant.setIdentifier(tel);
-
+		
+		List<UserGrant> grants=new ArrayList<>();
+		grants.add(userGrant);
+		
+		String openId=(String)session.getAttribute("openId");
+		if(openId!=null) {
+			UserGrant wxGrant=new UserGrant();
+			wxGrant.setLoginType("weixin");
+			wxGrant.setGrantCode(openId);
+			wxGrant.setIdentifier(tel);
+			grants.add(wxGrant);
+		}
+		user.setGrants(grants);
 		// 调用service 进行注册
-		user = userService.regist(userGrant, user);
+		user = userService.regist(user);
 
 		try (PrintWriter pw = response.getWriter()) {
 
@@ -219,6 +232,14 @@ public class UserAction {
 			HttpSession session, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		UserInfo user = userService.getUserByTel(tel);
+		if(user==null) {
+			try {
+				response.getWriter().print("密码错误");
+				return null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		List<UserGrant> grants = user.getGrants();
 
 		try (PrintWriter pw = response.getWriter()) {
@@ -282,8 +303,18 @@ public class UserAction {
 	 * @return
 	 */
 	@RequestMapping("home")
-	public String home() {
-
+	public String home(@RequestParam("code") String code,HttpSession session) {
+		//调用业务层通过code获取opeid
+		String openId = userService.getOpenId(code);
+		System.out.println(openId);
+		//调用业务层通过openId获取UserInfo
+		UserInfo user=userService.getUserByOpenId(openId);
+		//如果没有找到user 吧openId放到session
+		if(user==null) {
+			session.setAttribute("openId", openId);
+		}else {
+			session.setAttribute("user", user);
+		}
 		return "home";
 	}
 /**

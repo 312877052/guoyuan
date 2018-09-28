@@ -26,8 +26,18 @@ public class UserInfo {
 	
 	private List<UserGrant> grants;
 	
+	private String signature;
 	
 	
+	
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
 
 	public List<UserGrant> getGrants() {
 		return grants;

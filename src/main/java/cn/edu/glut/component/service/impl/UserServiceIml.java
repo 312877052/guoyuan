@@ -1,5 +1,11 @@
 package cn.edu.glut.component.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +15,13 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.catalina.User;
+import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
@@ -25,6 +34,7 @@ import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.ReceiverAddressExample;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
+import cn.edu.glut.util.AppUtil;
 import cn.edu.glut.util.SendSMSCode;
 /**
  * 
@@ -35,12 +45,20 @@ import cn.edu.glut.util.SendSMSCode;
 public class UserServiceIml implements UserService{
 
 	Logger log=LogManager.getLogger();
+	
+	
 	@Resource(name="jmsConnection")
 	Connection con;
+	
+	
 	@Resource
 	UserDao userDao;
+	
+	
 	@Resource
 	ReceiverAddressMapper rece;
+	
+	
 	@Override
 	public boolean smsCode(String tel, String checkCode) {
 		SendSmsResponse sendSms=null;
@@ -61,17 +79,14 @@ public class UserServiceIml implements UserService{
 		return false;
 	}
 
-	@Override
-	public UserInfo regist(UserGrant userGrant , UserInfo user) {
+	public UserInfo regist(UserInfo user) {
 		//调用dao层保存,先保存userinfo,再保存userGrant
 		userDao.addUserInfo(user);
-		userGrant.setUserId(user.getUserId());
-		userDao.addUserGrant(userGrant);
-		List<UserGrant> grants=new ArrayList<>();
-		grants.add(userGrant);
-		user.setGrants(grants);
-		
-		
+		List<UserGrant> grants=user.getGrants();
+		for (UserGrant userGrant : grants) {
+			userGrant.setUserId(user.getUserId());
+			userDao.addUserGrant(userGrant);
+		}
 		return user;
 	}
 
@@ -134,6 +149,44 @@ public class UserServiceIml implements UserService{
 		
 		
 		return consumer;
+	}
+
+	/**
+	 * 调用微信接口获取openID
+	 * https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+	 */
+	public String getOpenId(String code) {
+		String openId=null;
+		try {
+			URL wxAPI=new URL("https://api.weixin.qq.com/sns/oauth2/access_token?appid="+AppUtil.AppID+"&secret="+AppUtil.secret+"&code="+code+"&grant_type=authorization_code");
+			HttpURLConnection connection=(HttpURLConnection) wxAPI.openConnection();
+			//获取输入流
+			InputStream in =connection.getInputStream();
+			
+			InputStreamReader reader= new InputStreamReader(in);
+			
+			char buffer[] =new char[512];
+			reader.read(buffer);
+			reader.close();
+			in.close(); 
+			System.out.println("返回数据"+new String(buffer));
+			JSONObject data=new JSONObject(new String(buffer));
+			openId=data.getString("openid");
+			
+		} catch (MalformedURLException e) {
+			
+			log.error(e,e);
+		} catch (IOException e) {
+			log.error(e,e);
+		}
+		
+		return openId;
+	}
+
+	@Override
+	public UserInfo getUserByOpenId(String openId) {
+		
+		return userDao.getUserByOpenId(openId);
 	}
 
 	

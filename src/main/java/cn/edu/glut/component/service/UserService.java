@@ -23,10 +23,9 @@ public interface UserService {
 
 	/**
 	 * 用户注册功能
-	 * @param userGrant
 	 * @return
 	 */
-	UserInfo regist(UserGrant userGrant,UserInfo user);
+	UserInfo regist(UserInfo user);
 
 	/**
 	 * 根据用户名查找用户
@@ -47,5 +46,9 @@ public interface UserService {
 	List<ReceiverAddress> getReceiverAddress(Integer userId);
 
 	MessageConsumer registMessageConsumer(UserInfo user);
+
+	String getOpenId(String code);
+
+	UserInfo getUserByOpenId(String openId);
 	
 }

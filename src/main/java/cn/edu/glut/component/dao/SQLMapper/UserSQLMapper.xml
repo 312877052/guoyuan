@@ -11,7 +11,7 @@
  	</resultMap>
   
    <insert id="addUserInfo" parameterType="cn.edu.glut.model.UserInfo" keyProperty="userId" useGeneratedKeys="true">
-   	insert into user_info values(#{userId},#{telephone},#{nickname},#{identityNum},#{photo},#{state},#{address},#{ip})
+   	insert into user_info values(#{userId},#{telephone},#{nickname},#{identityNum},#{photo},#{state},#{address},#{ip},#{signature})
    </insert>
 
 
@@ -59,6 +59,29 @@ FROM
 	user_info
 	LEFT JOIN User_grant ON identifier = telephone 
 where telephone=#{telephone}
+   </select>
+   
+   <select id="getUserByOpenId" parameterType="String" resultMap="user">
+   SELECT
+	user_grant_id,
+	user_info.user_id,
+	telephone,
+	nickname,
+	identity_num,
+	photo,
+	state,
+	address,
+	ip,
+	signature,
+	login_type,
+	grant_code,
+	identifier 
+FROM
+	user_info
+	LEFT JOIN User_grant ON user_info.user_id = User_grant.user_id 
+WHERE
+	login_type = 'weixin' 
+	AND grant_code = #{openId};
    </select>
    
 </mapper>

@@ -17,5 +17,7 @@ public interface UserDao {
 	UserInfo getUserByTel(String tel);
 
 	UserGrant getUserGrantByTel(String tel);
+
+	UserInfo getUserByOpenId(String openId);
 	
 }
