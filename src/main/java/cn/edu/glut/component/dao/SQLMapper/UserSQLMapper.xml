@@ -5,6 +5,7 @@
   <mapper namespace="cn.edu.glut.component.dao.UserDao">
  
  	<resultMap type="cn.edu.glut.model.UserInfo" id="user" autoMapping="true"  >
+ 		<id property="userId" column="user_id"/>
  		<collection property="grants" autoMapping="true" ofType="cn.edu.glut.model.UserGrant" >
  		<id property="userGrantId" column="user_grant_id"/>
  		</collection>
