@@ -6,14 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.edu.glut.component.dao.CarMapper;
 import cn.edu.glut.component.dao.CommodityDao;
 import cn.edu.glut.component.dao.OrderDao;
 import cn.edu.glut.component.dao.OrderItemDao;
 import cn.edu.glut.component.dao.ReceiverAddressDao;
 import cn.edu.glut.component.service.OrderService;
+import cn.edu.glut.model.Car;
+import cn.edu.glut.model.CarExample;
 import cn.edu.glut.model.Commodity;
 import cn.edu.glut.model.CommodityOrderVo;
 import cn.edu.glut.model.EnsureOrderVo;
@@ -32,7 +37,11 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private ReceiverAddressDao receiverAddressDao;
+	
+	@Resource
+	private CarMapper carMapper;
 
+	
 	public Object productOrder() {
 		
 		//根据商品id和购买数量计算是否能够购买
@@ -92,6 +101,30 @@ public class OrderServiceImpl implements OrderService {
         ReceiverAddress receiverAddress = receiverAddressDao.selectAddressByDefault(userId);
         ensureOrderVo.setReceiverAddress(receiverAddress);
         return ensureOrderVo;	
+	}
+
+	@Override
+	public boolean addCar(Car car) {
+		CarExample carExample=new CarExample();
+		carExample.createCriteria().andCommodityIdEqualTo(car.getCommodityId());
+		List<Car> carList=carMapper.selectByExample(carExample);
+		if(carList.size()==0) {
+			carMapper.insert(car);
+		}else if(carList.size()==1) {
+			Car old = carList.get(0);
+			Integer commodityNum=old.getCommodityNum();
+			old.setCommodityNum(commodityNum+car.getCommodityNum());
+			int effect=carMapper.updateByPrimaryKey(old);
+			if(effect==1)return true;
+		}else {
+			
+		}
+		
+		if(car.getCarId()!=null) {
+			return true;
+			
+		}
+		return false;
 	}
 
 }

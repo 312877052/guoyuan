@@ -87,19 +87,13 @@ public class TestApp {
 //			
 //			receiver_postalcode
 //			is_default_address
-			mvc.perform(MockMvcRequestBuilders.post("/user/addShippingAddr.action")
+			mvc.perform(MockMvcRequestBuilders.post("/order/addCar")
 					.sessionAttr("user", user)
-					.param("receiverName", "李狗蛋")
-					.param("receiverMobile", "15036171234")
-					.param("receiverState", "广西")
-					.param("receiverCity", "桂林")
-					.param("receiverDistrict", "雁山")
-					.param("receiverAddress", "桂林理工大学")
+					.param("commodityId", "101")
+					.param("commodityNum", "3")
 					);
 			
-			System.out.println(res.andReturn().getResponse().getStatus()+":72");
-			String result=res.andReturn().getResponse().getContentAsString();
-			System.out.println(result.length());
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

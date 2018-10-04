@@ -2,6 +2,7 @@ package cn.edu.glut.component.service;
 
 import java.util.Map;
 
+import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
 
 public interface OrderService {
@@ -27,5 +28,12 @@ public interface OrderService {
 	 * @param buyNumber
 	 */
 	EnsureOrderVo ensureOrderInfoDirect(Integer userId, Long commodityId, Integer buyNumber);
+	
+	/**
+	 * 将商品信息添加到购物车
+	 * @param car
+	 * @return
+	 */
+	boolean addCar(Car car);
 
 }
