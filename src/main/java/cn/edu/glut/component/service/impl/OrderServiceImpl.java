@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public boolean addCar(Car car) {
 		CarExample carExample=new CarExample();
-		carExample.createCriteria().andCommodityIdEqualTo(car.getCommodityId());
+		carExample.createCriteria().andCommodityIdEqualTo(car.getCommodityId()).andUserIdEqualTo(car.getUserId());
 		List<Car> carList=carMapper.selectByExample(carExample);
 		if(carList.size()==0) {
 			carMapper.insert(car);

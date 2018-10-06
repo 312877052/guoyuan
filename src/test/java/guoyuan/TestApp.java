@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.edu.glut.component.dao.ReceiverAddressMapper;
+import cn.edu.glut.component.service.UserService;
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
 @ContextConfiguration(value= {"/spring-mvc.xml","/spring-common.xml"})
@@ -31,8 +32,8 @@ import cn.edu.glut.model.UserInfo;
 @WebAppConfiguration
 public class TestApp {
 	
-	
-	
+	@Resource
+	UserService userService;
 	@Resource
 	MockHttpServletRequest request;
 	
@@ -54,7 +55,7 @@ public class TestApp {
 		mvc=MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 	
-	@Test
+	
 	public void test() {
 		
 		
@@ -102,5 +103,9 @@ public class TestApp {
 				
 	}
 	
+	@Test
+	public void test2() {
+		userService.queryExpressInfo("3377706131089","shentong");
+	}
 	
 }

@@ -46,7 +46,13 @@ public class OrderAction {
 		return "ensureBuyMessage";
 	}
 	
-	
+	/**
+	 * 添加商品到购物车
+	 * @param car
+	 * @param session
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping("/addCar")
 	public String  addCar(Car car,HttpSession session,HttpServletResponse response) {
 		UserInfo user=(UserInfo)session.getAttribute("user");

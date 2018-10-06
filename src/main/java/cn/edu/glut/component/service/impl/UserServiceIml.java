@@ -18,6 +18,7 @@ import javax.jms.Session;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.catalina.User;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -187,6 +188,35 @@ public class UserServiceIml implements UserService{
 	public UserInfo getUserByOpenId(String openId) {
 		
 		return userDao.getUserByOpenId(openId);
+	}
+
+	@Override
+	public JSONObject queryExpressInfo(String number,String exp) {
+		String api="http://api.56jiekou.com/index.php/openapi-api.html?key="+AppUtil.KEY+"&num="+number;
+		if(exp!=null) api=api+"&exp="+exp;
+		JSONObject obj=null;
+		try {
+			URL apiUrl=new URL(api);
+			HttpURLConnection con=(HttpURLConnection) apiUrl.openConnection();
+			InputStream in = con.getInputStream();
+			InputStreamReader read=new InputStreamReader(in,"utf-8");
+			char[] buffer=new char[1024];
+			int a=read.read(buffer);
+			StringBuffer sb=new StringBuffer();
+			while(a!=-1) {
+				sb.append(buffer);
+				buffer=new char[buffer.length];
+				a=read.read(buffer);
+				
+			}
+			obj=new JSONObject(new String(buffer).trim());
+			System.out.println(obj);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return obj;
 	}
 
 	

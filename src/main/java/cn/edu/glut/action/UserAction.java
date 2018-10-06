@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -348,5 +349,24 @@ public class UserAction {
 		ModelAndView mv=new ModelAndView("address");
 		mv.addObject("addrs",addrs);
 		return mv;
+	}
+
+	/**
+	 * 查看收货地址
+	 * @param number 运单号
+	 * @param exp 快递公司
+	 * @return
+	 */
+	@RequestMapping("expressInfo")
+	public ModelAndView expressInfo(@RequestParam("number")String number,@RequestParam("exp") String exp,HttpServletResponse response) {
+		
+		JSONObject expressInfo=userService.queryExpressInfo(number,exp);
+		try {
+			response.getWriter().println(expressInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.jms.MessageConsumer;
 
+import org.json.JSONObject;
+
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
@@ -50,5 +52,7 @@ public interface UserService {
 	String getOpenId(String code);
 
 	UserInfo getUserByOpenId(String openId);
+
+	JSONObject queryExpressInfo(String number, String exp);
 	
 }
