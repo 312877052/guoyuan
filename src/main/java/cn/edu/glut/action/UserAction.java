@@ -352,7 +352,7 @@ public class UserAction {
 	}
 
 	/**
-	 * 查看收货地址
+	 * 查看收货地址 返回json 数据
 	 * @param number 运单号
 	 * @param exp 快递公司
 	 * @return

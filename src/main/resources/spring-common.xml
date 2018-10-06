@@ -42,7 +42,9 @@
 		<property name="checkoutTimeout" value="10000" />
 		<!-- 当获取连接失败重试次数 -->
 		<property name="acquireRetryAttempts" value="2" />
-	</bean>
+		<property name="idleConnectionTestPeriod" value="3600"></property>
+		
+</bean>
 
 	<!-- 3.配置SqlSessionFactory对象 -->
 	<bean id="sqlSessionFactory"
@@ -57,6 +59,7 @@
 		<!-- 扫描sql配置文件:mapper需要的xml文件 -->
 		<property name="mapperLocations"
 			value="classpath*:cn/edu/glut/component/dao/SQLMapper/*Mapper.xml" />
+		
 	</bean>
 
 	<!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
@@ -83,7 +86,7 @@
 	<context:component-scan
 		base-package="org.lanqiao.component" />
 
-	<!-- 实例化工厂类 -->
+	<!-- activeMQ实例化工厂类 -->
 	<bean id="jmsFaction" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
 		<property name="brokerURL" value="tcp://39.108.236.107:61616"></property>
 		<property name="userName" value="admin"></property>
