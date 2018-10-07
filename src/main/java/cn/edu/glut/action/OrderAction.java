@@ -11,10 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.glut.component.service.OrderService;
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
+import cn.edu.glut.model.Order;
+import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.ResponseCode;
 
@@ -70,4 +73,42 @@ public class OrderAction {
 		
 		return null;
 	}
+	
+	/**
+	 * 提交订单
+	 * @param order
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("commitOrder")
+	public String commitOrder(Order order,HttpServletResponse response,HttpSession session) {
+		
+		UserInfo user=(UserInfo)session.getAttribute("user");
+		if(user!=null) {
+			order.setUserId(user.getUserId());
+		}
+		//提交订单
+		 boolean result=orderService.commitOrder(order);
+		 //调用支付接口
+		 
+		return null;
+	}
+	
+	/**
+	 * 取消订单 ajax 
+	 * @return
+	 */
+	public String cancelTheOrder(@RequestParam("orderId")String orderId,HttpServletResponse response) {
+		Long id=null;
+		try {
+			 id= Long.valueOf(orderId);
+			boolean reault=orderService.cancelTheOrder(id);
+		}catch (NumberFormatException e) {
+			
+		}
+		
+		return null;
+	}
+	
+	
 }

@@ -22,7 +22,10 @@ import cn.edu.glut.model.CarExample;
 import cn.edu.glut.model.Commodity;
 import cn.edu.glut.model.CommodityOrderVo;
 import cn.edu.glut.model.EnsureOrderVo;
+import cn.edu.glut.model.Order;
 import cn.edu.glut.model.ReceiverAddress;
+import cn.edu.glut.util.AppUtil;
+import cn.edu.glut.util.IDUtils;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
@@ -125,6 +128,29 @@ public class OrderServiceImpl implements OrderService {
 			
 		}
 		return false;
+	}
+
+	@Override
+	public boolean commitOrder(Order order) {
+		order.setOrderId(IDUtils.genOrderId());
+		int result = orderDao.insertSelective(order);
+		if(result==1)return true;
+		return false;
+	}
+
+	@Override
+	public boolean cancelTheOrder(Long id) {
+		//找出订单
+		Order order=orderDao.selectById(id);                                              
+		// 取消订单
+		if(order!=null) {
+			order.setPayState(2);
+			orderDao.update(order);
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 }

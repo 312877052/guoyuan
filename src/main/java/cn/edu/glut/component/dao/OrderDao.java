@@ -11,4 +11,8 @@ public interface OrderDao {
 	 */
 	int insertSelective(Order order);
 
+	Order selectById(Long id);
+
+	void update(Order order);
+
 }

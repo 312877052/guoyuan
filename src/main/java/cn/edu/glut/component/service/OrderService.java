@@ -4,6 +4,7 @@ import java.util.Map;
 
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
+import cn.edu.glut.model.Order;
 
 public interface OrderService {
 	/**
@@ -35,5 +36,8 @@ public interface OrderService {
 	 * @return
 	 */
 	boolean addCar(Car car);
+	
+	boolean commitOrder(Order order);
+	boolean cancelTheOrder(Long id);
 
 }
