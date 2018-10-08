@@ -1,10 +1,12 @@
 package cn.edu.glut.component.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
+import cn.edu.glut.model.OrderItem;
 
 public interface OrderService {
 	/**
@@ -39,5 +41,6 @@ public interface OrderService {
 	
 	boolean commitOrder(Order order);
 	boolean cancelTheOrder(Long id);
+	List<OrderItem> getAllNotFinshed(Integer userId);
 
 }

@@ -81,5 +81,15 @@
 		WHERE
 		order_id=#{orderId}
 	</update>
-
+	<!-- 0待发货 1已发货 3已签收 4已完成（确认收货） -->
+	<select id="getAllNotFinshed" parameterType="int"  resultType="cn.edu.glut.model.OrderItem">
+	SELECT
+	* 
+FROM
+	order_item 
+WHERE
+	order_id IN ( SELECT order_id FROM `order` WHERE deliver_state != 4 AND user_id = #{userId} )
+	
+	
+	</select>
 </mapper>

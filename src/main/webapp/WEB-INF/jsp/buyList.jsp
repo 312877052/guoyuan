@@ -63,7 +63,7 @@
 				</div>
 			</div>
 
-			<a href="fruitState.html">
+			<a href="${pageContext.request.contextPath}/common/fruitState.action">
 				<div id="100" class="mui-row myTreeList">
 					<div class="mui-col-sm-3 mui-col-xs-3">
 						<p>20d</p>

@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.edu.glut.component.dao.ReceiverAddressMapper;
 import cn.edu.glut.component.service.UserService;
 import cn.edu.glut.component.service.impl.OrderServiceImpl;
+import cn.edu.glut.model.OrderItem;
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
 @ContextConfiguration(value= {"/spring-mvc.xml","/spring-common.xml"})
@@ -33,13 +34,17 @@ import cn.edu.glut.model.UserInfo;
 @WebAppConfiguration
 public class TestApp {
 	
-	@Resource()
+	@Resource
 	OrderServiceImpl orderService;
 	
 	
 	@Test
 	public void test2() {
-		orderService.cancelTheOrder(15370239886906508L);
+		List<OrderItem> items=orderService.getAllNotFinshed(1);
+		System.out.println("hshs");
+		for (OrderItem orderItem : items) {
+			System.out.println(orderItem.getId());
+		}
 		
 	}
 	

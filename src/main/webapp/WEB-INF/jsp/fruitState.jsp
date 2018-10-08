@@ -7,9 +7,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>果苗状态</title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/fruitLuck.css" />
+		<script src="${pageContext.request.contextPath}/js/mui.min.js"></script>
+		<link href="${pageContext.request.contextPath}/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fruitLuck.css" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
@@ -45,7 +45,7 @@
 					<p>2株</p>
 				</div>
 			</div>
-			<img id="fruitStsteImg" src="img/幼苗期.png" />
+			<img id="fruitStsteImg" src="${pageContext.request.contextPath}/img/幼苗期.png" />
 
 			<div id="fruitStsteDiv" class="mui-row">
 				<div class="mui-col-sm-12 mui-col-xs-12">
@@ -61,23 +61,23 @@
 
 			<div id="fruitStsteEnvariment" class="mui-row">
 				<div class="mui-col-sm-4 mui-col-xs-4">
-					<img class="fruitStsteEnvarimentIcon" src="img/雨水.png" />
+					<img class="fruitStsteEnvarimentIcon" src="${pageContext.request.contextPath}/img/雨水.png" />
 					<br />
 					<p>充足</p>
 				</div>
 				<div class="mui-col-sm-4 mui-col-xs-4">
-					<img class="fruitStsteEnvarimentIcon" src="img/阳光.png" />
+					<img class="fruitStsteEnvarimentIcon" src="${pageContext.request.contextPath}/img/阳光.png" />
 					<br />
 					<p>充足</p>
 				</div>
 				<div class="mui-col-sm-4 mui-col-xs-4">
-					<img class="fruitStsteEnvarimentIcon" src="img/肥料.png" />
+					<img class="fruitStsteEnvarimentIcon" src="${pageContext.request.contextPath}/img/肥料.png" />
 					<br />
 					<p>充足</p>
 				</div>
 				<div id="fruitStsteEnvarimentArea" class="mui-col-sm-12 mui-col-xs-12">
 					<span>果区</span>
-					<a href="fruitGarden.html"><img class="fruitStsteEnvarimentIcon" src="img/果区.png" /></a>
+					<a href="fruitGarden.html"><img class="fruitStsteEnvarimentIcon" src="${pageContext.request.contextPath}/img/果区.png" /></a>
 				</div>
 			</div>
 		</div>

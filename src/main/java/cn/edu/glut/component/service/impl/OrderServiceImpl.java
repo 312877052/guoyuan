@@ -23,6 +23,7 @@ import cn.edu.glut.model.Commodity;
 import cn.edu.glut.model.CommodityOrderVo;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
+import cn.edu.glut.model.OrderItem;
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.util.AppUtil;
 import cn.edu.glut.util.IDUtils;
@@ -151,6 +152,15 @@ public class OrderServiceImpl implements OrderService {
 			return false;
 		}
 		
+	}
+
+	@Override
+	public List<OrderItem> getAllNotFinshed(Integer userId) {
+		//根据userid 找出所有未完成订单
+		List<OrderItem> orders=orderDao.getAllNotFinshed(userId);
+		
+		
+		return orders;
 	}
 
 }

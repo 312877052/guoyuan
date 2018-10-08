@@ -1,6 +1,9 @@
 package cn.edu.glut.action;
 
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,11 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import cn.edu.glut.component.service.OrderService;
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
+import cn.edu.glut.model.OrderItem;
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.ResponseCode;
@@ -98,17 +103,35 @@ public class OrderAction {
 	 * 取消订单 ajax 
 	 * @return
 	 */
+	@RequestMapping("cancelTheOrder")
 	public String cancelTheOrder(@RequestParam("orderId")String orderId,HttpServletResponse response) {
 		Long id=null;
 		try {
 			 id= Long.valueOf(orderId);
-			boolean reault=orderService.cancelTheOrder(id);
-		}catch (NumberFormatException e) {
+			boolean result=orderService.cancelTheOrder(id);
+			if(result) {
+				response.getWriter().println("success");
+			}else {
+				response.getWriter().println("error");
+			}
+		}catch (NumberFormatException | IOException e) {
 			
 		}
 		
 		return null;
 	}
-	
-	
+	/**
+	 * 查看未完成订单 应显示商品名 发货状态 数量 果苗类商品可以查看果苗状态
+	 * @return
+	 */
+	@RequestMapping("buyList")
+	public ModelAndView viewOrder(HttpSession session) {
+		UserInfo user=(UserInfo)session.getAttribute("user");
+		//查询出所有未完成订单
+		List<OrderItem> items=orderService.getAllNotFinshed(user.getUserId());
+		ModelAndView mv =new ModelAndView("buyList");
+		mv.addObject("orderItems", items);
+		return mv;
+	}
+	     
 }

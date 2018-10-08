@@ -1,6 +1,9 @@
 package cn.edu.glut.component.dao;
 
+import java.util.List;
+
 import cn.edu.glut.model.Order;
+import cn.edu.glut.model.OrderItem;
 
 public interface OrderDao {
 	/**
@@ -14,5 +17,7 @@ public interface OrderDao {
 	Order selectById(Long id);
 
 	void update(Order order);
+
+	List<OrderItem> getAllNotFinshed(Integer userId);
 
 }
