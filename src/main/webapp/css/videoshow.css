@@ -1,0 +1,80 @@
+.video-div{
+	position: relative;
+}
+.video-div-nav{
+	background: #fff;
+	border-bottom: 1px solid #DDDDDD;
+	overflow: hidden;	
+}
+.w20{
+	width:20%;
+}
+.vidmore{
+	width: 15%;
+	float: left;
+	color:#333;
+	padding: 0px;
+	font-size:14px;
+	text-align: center;
+	height:38px;
+	line-height: 38px;
+}
+.video-div-nav a{
+	
+	display: inline-block;
+	float: left;
+	color:#333;
+	font-size:14px;
+	text-align: center;
+	height:38px;
+	line-height: 38px;
+}
+.other-nav-list{
+	width: 20%;
+	display: block;
+	position: absolute;
+	top:38px;
+	right: 0px;
+	display: none;
+	border-bottom: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	border-left: 1px solid #DDDDDD;
+	
+}
+.other-nav-list a{
+	width: 100%;
+	display: inline-block;
+	background: #fff;
+	color:#333;
+	font-size:14px;
+	text-align: center;
+	height:38px;
+	line-height: 38px;
+}
+.active-a{
+	border-bottom:2px solid #3492E9;
+	color:#3492E9 !important;
+}
+.video-list{
+	padding-right: 4.2%;
+	overflow: hidden;
+}
+.video-item{
+	width: 28%;
+    float: left;
+    margin-left: 5.3%;
+    margin-top: 20px;
+    
+}
+.video-item img{
+	width: 100%;
+}
+.video-item a{
+	width: 100%;
+	display: inline-block;
+}
+.video-item p{
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+}
