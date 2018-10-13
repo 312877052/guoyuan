@@ -10,9 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,11 +22,15 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.edu.glut.component.dao.ReceiverAddressMapper;
+import cn.edu.glut.component.dao.VCategoryDao;
 import cn.edu.glut.component.service.UserService;
+import cn.edu.glut.component.service.VCategoryService;
 import cn.edu.glut.component.service.impl.OrderServiceImpl;
 import cn.edu.glut.model.OrderItem;
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
+import cn.edu.glut.model.Vid;
+import cn.edu.glut.util.ServerResponse;
 @ContextConfiguration(value= {"/spring-mvc.xml","/spring-common.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -37,6 +39,10 @@ public class TestApp {
 	@Resource
 	OrderServiceImpl orderService;
 	
+	@Resource
+	VCategoryDao vc;
+	@Resource
+	VCategoryService scs;
 	
 	@Test
 	public void test2() {
@@ -47,5 +53,11 @@ public class TestApp {
 		}
 		
 	}
-	
+	@Test
+	public void test3() {
+		@SuppressWarnings("unused")
+		ServerResponse<List<Integer>> categoryAndChildrenById = scs.getCategoryAndChildrenById(1);
+		System.out.println();
+		
+	}
 }

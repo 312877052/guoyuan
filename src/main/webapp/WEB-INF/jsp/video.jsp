@@ -24,17 +24,17 @@
         -->
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
-				<img id="homeIcon" class="bottomNavIcon" src="img/资源 14-100.jpg" />
+				<img id="homeIcon" class="bottomNavIcon" src="${pageContext.request.contextPath }/img/资源 14-100.jpg" />
 			</a>
 			<a class="mui-tab-item" href="video.html">
-				<img id="videoIcon" class="bottomNavIcon" src="img/资源 10-100.jpg" />
+				<img id="videoIcon" class="bottomNavIcon" src="${pageContext.request.contextPath }/img/资源 10-100.jpg" />
 			</a>
 			<a class="mui-tab-item" href="buyList.html">
-				<img id="buyIcon" class="bottomNavIcon " src="img/资源 11-100.jpg" />
+				<img id="buyIcon" class="bottomNavIcon " src="${pageContext.request.contextPath }/img/资源 11-100.jpg" />
 				<span class="mui-badge mui-badge-success">12</span>
 			</a>
 			<a class="mui-tab-item" href="my.html">
-				<img id="myIcon" class="bottomNavIcon" src="img/资源 13-100.jpg" />
+				<img id="myIcon" class="bottomNavIcon" src="${pageContext.request.contextPath }/img/资源 13-100.jpg" />
 			</a>
 		</nav>
 
@@ -45,23 +45,23 @@
     -->
 
 		<div class="mui-content">
-			<img id="videoImg" src="img/video.png" />
+			<img id="videoImg" src="${pageContext.request.contextPath }/img/video.png" />
 			<table id="videoTable">
 				<tr>
 					<td>
-						<img class="videoIcon" src="img/天气.png" />
+						<img class="videoIcon" src="${pageContext.request.contextPath }/img/天气.png" />
 					</td>
 					<td>
 						<span>晴</span>
 					</td>
 					<td>
-						<img class="videoIcon" src="img/温度.png" />
+						<img class="videoIcon" src="${pageContext.request.contextPath }/img/温度.png" />
 					</td>
 					<td>
 						<span>24℃</span>
 					</td>
 					<td>
-						<img class="videoIcon" src="img/风级.png" />
+						<img class="videoIcon" src="${pageContext.request.contextPath }/img/风级.png" />
 					</td>
 					<td>
 						<span>2-4级</span>
