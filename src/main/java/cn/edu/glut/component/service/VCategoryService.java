@@ -3,7 +3,6 @@ package cn.edu.glut.component.service;
 import java.util.List;
 
 import cn.edu.glut.model.Vid;
-import cn.edu.glut.util.ServerResponse;
 
 public interface VCategoryService {
 	
@@ -13,11 +12,5 @@ public interface VCategoryService {
 	 * @return
 	 */
 	public List<Vid> getChildParallVCategory(Integer vcategouryId);
-	/**
-	 * 递归查询本节点的id及孩子节点的id
-	 * @param vcategouryId
-	 * @return
-	 */
-	public List<Integer> getCategoryAndChildrenById(Integer vcategouryId);
 
 }
