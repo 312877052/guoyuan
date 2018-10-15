@@ -52,5 +52,11 @@ public class VideoAction {
 		model.addAttribute("videoVo", videoVo);
 		return "videolist";
 	}
+	@RequestMapping(value="/playVideo",method=RequestMethod.GET)
+	public String playVideo(Integer videoId,Model model) {
+		Video video = videoService.getVideoById(videoId);
+		model.addAttribute("video", video);
+		return "playVideo";
+	}
 	
 }

@@ -40,7 +40,7 @@
 			    <div class="video-list" style="display:none;">
 			    	 <c:forEach items="${videoInfo.videos}" var="video">
 				    	<div class="video-item">
-					    	<a href="${video.id }">
+					    	<a href="${pageContext.request.contextPath}/video/playVideo.action?videoId=${video.id }">
 					    		<img src="/pic/${video.vImg }"/>
 					    		<p>${video.vName }</p>
 					    	</a>	    		

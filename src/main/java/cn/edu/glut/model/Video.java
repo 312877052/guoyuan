@@ -1,7 +1,12 @@
 package cn.edu.glut.model;
 
-public class Video {
-    private Integer id;
+import java.io.Serializable;
+
+public class Video implements Serializable{
+
+	private static final long serialVersionUID = 389679904780575768L;
+
+	private Integer id;
 
     private Integer vid;
 
