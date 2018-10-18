@@ -29,4 +29,15 @@
 	#{commodityMainPho},
 	#{totalFee})
  </insert>
+ 
+ <insert id="insertList" parameterType="List" keyProperty="id" useGeneratedKeys="true">
+
+insert order_item values
+<foreach collection="list" index="index" item="item" separator=",">
+(#{item.orderId},#{item.commodityId},#{item.buyNum},#{item.commodityName}
+,#{item.commodityMainPho},#{item.totalFee},#{item.id},#{item.userId})
+
+</foreach>
+ </insert>
+ 
 </mapper>

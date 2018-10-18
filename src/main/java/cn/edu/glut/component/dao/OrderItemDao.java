@@ -1,5 +1,7 @@
 package cn.edu.glut.component.dao;
 
+import java.util.List;
+
 import cn.edu.glut.model.OrderItem;
 
 public interface OrderItemDao {
@@ -10,5 +12,12 @@ public interface OrderItemDao {
 	 * @return
 	 */
 	int insertOrderItem(OrderItem orderItem);
+
+	/**
+	 * @author jones
+	 * @param orderItems
+	 * @return
+	 */
+	int insertList(List<OrderItem> orderItems);
 
 }

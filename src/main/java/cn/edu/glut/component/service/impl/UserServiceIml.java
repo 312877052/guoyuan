@@ -36,6 +36,7 @@ import cn.edu.glut.model.ReceiverAddressExample;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.AppUtil;
+import cn.edu.glut.util.DebugOut;
 import cn.edu.glut.util.SendSMSCode;
 /**
  * 
@@ -170,7 +171,7 @@ public class UserServiceIml implements UserService{
 			reader.read(buffer);
 			reader.close();
 			in.close(); 
-			System.out.println("返回数据"+new String(buffer));
+			DebugOut.print("返回数据"+new String(buffer));
 			JSONObject data=new JSONObject(new String(buffer));
 			openId=data.getString("openid");
 			

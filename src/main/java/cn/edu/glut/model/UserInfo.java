@@ -114,6 +114,16 @@ public class UserInfo {
 	}
 
 	
-	
+	public String getOpenId() {
+		String openId=null;
+		if(grants!=null) {
+			for (UserGrant userGrant : grants) {
+				if("weixin".equals(userGrant.getLoginType())) {
+					openId=userGrant.getGrantCode();
+				}
+			}
+		}
+		return openId;
+	}
 	
 }

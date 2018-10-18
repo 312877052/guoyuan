@@ -7,6 +7,7 @@ import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
 import cn.edu.glut.model.OrderItem;
+import cn.edu.glut.model.UserInfo;
 
 public interface OrderService {
 	/**
@@ -39,8 +40,10 @@ public interface OrderService {
 	 */
 	boolean addCar(Car car);
 	
-	boolean commitOrder(Order order);
+	boolean commitOrder(Order order, List<OrderItem> orderItems);
 	boolean cancelTheOrder(Long id);
 	List<OrderItem> getAllNotFinshed(Integer userId);
+	Map<String, String> pay(Order order, UserInfo user,String ip);
+	String payResult(String string);
 
 }

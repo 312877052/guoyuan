@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -343,9 +344,21 @@ public class UserAction {
 	 * @return
 	 */
 	@RequestMapping("address")
-	public ModelAndView address(HttpSession session) {
+	public ModelAndView address(@RequestParam(name="forJson" ,required=false)String forJson,HttpSession session,HttpServletResponse response) {
+		response.setCharacterEncoding("utf-8");
 		UserInfo user = (UserInfo) session.getAttribute("user");
 		List<ReceiverAddress> addrs= userService.getReceiverAddress(user.getUserId());
+		//返回json数据
+		if(forJson!=null&&forJson.trim().equals("true")) {
+			JSONArray result=new JSONArray(addrs);
+			try {
+				response.getWriter().println(result);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
 		ModelAndView mv=new ModelAndView("address");
 		mv.addObject("addrs",addrs);
 		return mv;

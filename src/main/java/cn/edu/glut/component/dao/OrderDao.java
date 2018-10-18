@@ -20,4 +20,6 @@ public interface OrderDao {
 
 	List<OrderItem> getAllNotFinshed(Integer userId);
 
+	Order getOrderById(long id);
+
 }
