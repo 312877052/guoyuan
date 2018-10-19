@@ -75,7 +75,7 @@
 				<table class="bingoTable">
 					<tr>
 						<td class="bingo">
-							<a id="buyTreeHomeIcon" href="${pageContext.request.contextPath}/common/list.action"><img src="${pageContext.request.contextPath}/img/KeepTree.jpg" class="bingoImg"></a><br>买苗</td>
+							<a id="buyTreeHomeIcon" href="${pageContext.request.contextPath}/common/treeList.action"><img src="${pageContext.request.contextPath}/img/KeepTree.jpg" class="bingoImg"></a><br>买苗</td>
 						<td class="bingo">
 							<a id="starHomeIcon" href="${pageContext.request.contextPath}/common/star.action"><img src="${pageContext.request.contextPath}/img/Collection.jpg" class="bingoImg" /></a><br>收藏</td>
 						<td class="bingo">

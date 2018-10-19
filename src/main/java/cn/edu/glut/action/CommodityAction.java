@@ -1,7 +1,10 @@
 package cn.edu.glut.action;
 
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +17,11 @@ import com.github.pagehelper.PageInfo;
 import cn.edu.glut.component.service.CommodityService;
 import cn.edu.glut.model.CommodityDetailVo;
 import cn.edu.glut.model.CommodityListVo;
+import cn.edu.glut.util.DebugOut;
+import net.sf.json.JSONArray;
 
 @Controller
-@RequestMapping("/common")
+@RequestMapping("/commondity")
 public class CommodityAction {
 	
 	@Resource(name="commodityService")
@@ -24,11 +29,20 @@ public class CommodityAction {
 	
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public String showCommoditys(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
-            					@RequestParam(value = "pageSize",defaultValue = "3") int pageSize, Model model) {
+            					@RequestParam(value = "pageSize",defaultValue = "3") int pageSize, Model model
+            					,HttpServletResponse response) {
 		PageInfo<CommodityListVo> commodtiypageInfo = commodityService.getCommodityList(pageNum, pageSize);
 		model.addAttribute("commodtiypageInfo", commodtiypageInfo);
-		System.out.println(commodtiypageInfo);
-		return "treeList";
+		JSONArray list=new JSONArray();
+		list.addAll(commodtiypageInfo.getList());
+		DebugOut.print(list);
+		try {
+			response.getWriter().print(list);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="/showCommodity",method=RequestMethod.GET)
