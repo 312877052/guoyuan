@@ -46,8 +46,9 @@ function pullupRefresh() {
 							for (var i = 0; i < data.length; i++) {
 								var item = $('<div class="mui-row treeListDiv"></div>');
 								item.attr('id', data[i].commodityId);
-								item.click(function() {
-											var commodityId = item.attr('id');
+								
+								item.on('tap',function() {
+											var commodityId = $(this).attr("id");
 											var url = 'http://'
 													+ location.hostname
 													+ ':'
@@ -106,8 +107,3 @@ if (mui.os.plus) {
 }
 
 
-// ${pageContext.request.contextPath
-// }/common/showCommodity.action?commodityId=${commodity.commodityId}
-function itemClick(item) {
-
-}

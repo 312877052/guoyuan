@@ -30,6 +30,7 @@ import cn.edu.glut.component.service.UserService;
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
+import cn.edu.glut.util.DebugOut;
 
 /**
  * 
@@ -307,16 +308,20 @@ public class UserAction {
 	@RequestMapping("home")
 	public String home(@RequestParam("code") String code,HttpSession session) {
 		//调用业务层通过code获取opeid
+		String oldopenId=(String) session.getAttribute("openId");
+
+		if(oldopenId!=null) {
+			DebugOut.print("缓存的oldopenId");
+			return "home";
+		}
 		String openId = userService.getOpenId(code);
-		System.out.println(openId);
 		//调用业务层通过openId获取UserInfo
 		UserInfo user=userService.getUserByOpenId(openId);
 		//如果没有找到user 吧openId放到session
-		if(user==null) {
-			session.setAttribute("openId", openId);
-		}else {
+		if(user!=null){
 			session.setAttribute("user", user);
 		}
+		session.setAttribute("openId", openId);
 		return "home";
 	}
 /**

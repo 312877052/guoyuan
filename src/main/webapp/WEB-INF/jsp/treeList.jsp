@@ -11,7 +11,7 @@
 <title>养苗列表</title>
 <script src="${pageContext.request.contextPath }/js/mui.min.js"></script>
 <link href="${pageContext.request.contextPath }/css/mui.min.css"
-	rel="stylesheet" />
+	rel="stylesheet" /> 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/css/fruitLuck.css" />
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>

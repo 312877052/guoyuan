@@ -3,6 +3,8 @@ package cn.edu.glut.component.service;
 import java.util.List;
 import java.util.Map;
 
+import cn.edu.glut.exception.LackofstockException;
+import cn.edu.glut.exception.NoCommodityException;
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
@@ -30,8 +32,9 @@ public interface OrderService {
 	 * @param userId
 	 * @param commodityId
 	 * @param buyNumber
+	 * @throws Exception 
 	 */
-	EnsureOrderVo ensureOrderInfoDirect(Integer userId, Long commodityId, Integer buyNumber);
+	EnsureOrderVo ensureOrderInfoDirect(Integer userId, Long commodityId, Integer buyNumber) throws NoCommodityException,LackofstockException;
 	
 	/**
 	 * 将商品信息添加到购物车

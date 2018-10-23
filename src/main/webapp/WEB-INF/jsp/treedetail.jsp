@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+    pageEncoding="utf-8" isELIgnored="false" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <!DOCTYPE html>
 <html>
 
@@ -8,6 +9,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>订单信息</title>
 		<script src="${pageContext.request.contextPath }/js/mui.min.js"></script>
+		<script src="${pageContext.request.contextPath }/js/jquery-1.10.1.js"></script>
 		<link href="${pageContext.request.contextPath }/css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath }/css/fruitLuck.css" />
 	</head>
@@ -41,16 +43,16 @@
 				<div class="mui-slider-group mui-slider-loop">
 					<!--支持循环，需要重复图片节点-->
 					<div class="mui-slider-item mui-slider-item-duplicate">
-						<a href="#"><img src="/pic/${commodityDetail.commodityMainPho }" /></a>
+						<a href="#"><img src="${commodityDetail.commodityMainPho }" /></a>
 					</div>
 					<div class="mui-slider-item">
-						<a href="#"><img src="/pic/${commodityDetail.commoditySubPho1 }" /></a>
+						<a href="#"><img src="${commodityDetail.commoditySubPho1 }" /></a>
 					</div>
 					<div class="mui-slider-item">
-						<a href="#"><img src="/pic/${commodityDetail.commoditySubPho2 }" /></a>
+						<a href="#"><img src="${commodityDetail.commoditySubPho2 }" /></a>
 					</div>
 					<div class="mui-slider-item">
-						<a href="#"><img src="/pic/${commodityDetail.commoditySubPho3 }" /></a>
+						<a href="#"><img src="${commodityDetail.commoditySubPho3 }" /></a>
 					</div>
 					<!--支持循环，需要重复图片节点-->
 					<!-- <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="1.jpg" /></a></div>-->
@@ -75,15 +77,16 @@
 					</tr>
 					<tr>
 						<td>
-							<img class="buyMesIcon" src="img/资源 2-100.jpg" />
-							<img class="buyMesIcon" src="img/资源 1-100.jpg" />
+							<img class="buyMesIcon" src="../img/资源 2-100.jpg" />
+							<img class="buyMesIcon" src="../img/资源 1-100.jpg" />
 						</td>
 						<td></td>
 						<td>
-							<form action="${pageContext.request.contextPath }/order/ensureOrderDirect.action">
-							<input name="buyNumber" type="text" value="1"/>
+							<form id="buyform" action="${pageContext.request.contextPath }/order/ensureOrderDirect.action" method="post">
+							
+							<input id="buyMesNumber" name="buyNumber" type="text" value="1"/>
 							<input name="commodityId" type="hidden" value="${commodityDetail.commodityId }" />
-							<input id="buy" type="submit" value="购买"/>
+							<input id="buy" type="button" value="购买"/>
 							</form>
 						</td>
 					</tr>
@@ -156,6 +159,13 @@
 		</div>
 
 	</body>
+<script type="text/javascript">
+var tree=${obj};
+</script>
+<script type="text/javascript" src="../js/treedetail.js">
+
+</script>
+
 	<script type="text/javascript" charset="utf-8">
 		mui('body').on('tap', 'a', function() {
 			document.location.href = this.href;
@@ -170,5 +180,7 @@
 		});
 		
 	</script>
+
+
 
 </html>

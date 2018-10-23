@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.edu.glut.component.dao.OrderDao;
 import cn.edu.glut.component.service.OrderService;
+import cn.edu.glut.exception.LackofstockException;
+import cn.edu.glut.exception.NoCommodityException;
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
@@ -53,13 +55,25 @@ public class OrderAction {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/ensureOrderDirect", method = RequestMethod.GET)
-	public String ensureOrderDirect(HttpSession session, Long commodityId, Integer buyNumber, Model model) {
+	@RequestMapping(value = "/ensureOrderDirect")
+	public String ensureOrderDirect(HttpSession session, Long commodityId, @RequestParam("buyNumber")String buyNumber, Model model) {
 		// TODO 根据session获取用户id
-		EnsureOrderVo ensureOrderVo = orderService.ensureOrderInfoDirect(1, commodityId, buyNumber);
-		if (ensureOrderVo == null) {
-			return null;
+		UserInfo user=(UserInfo)session.getAttribute("user");
+		EnsureOrderVo ensureOrderVo=null;
+		
+		try {
+			ensureOrderVo = orderService.ensureOrderInfoDirect(user.getUserId(), commodityId, Integer.valueOf(buyNumber));
+		} catch (NumberFormatException e) {
+			
+		} catch (NoCommodityException e) {
+			model.addAttribute("error","商品已下架");
+			return "treedetail";
+		} catch (LackofstockException e) {
+			model.addAttribute("error","库存不足");
+			return "treedetail";
 		}
+		
+		
 		model.addAttribute("ensureOrderVo", ensureOrderVo);
 		return "ensureBuyMessage";
 	}

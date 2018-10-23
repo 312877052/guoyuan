@@ -19,6 +19,7 @@ import cn.edu.glut.model.CommodityDetailVo;
 import cn.edu.glut.model.CommodityListVo;
 import cn.edu.glut.util.DebugOut;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/commondity")
@@ -49,6 +50,8 @@ public class CommodityAction {
 	public String showCommodityById(Long commodityId,Model model) {
 		CommodityDetailVo commodityDetailVo= commodityService.getCommodityDetailById(commodityId);
 		model.addAttribute("commodityDetail", commodityDetailVo);
+		JSONObject obj =JSONObject.fromObject(commodityDetailVo);
+		model.addAttribute("obj", obj.toString());
 		return "treedetail";
 	}
 	

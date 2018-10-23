@@ -26,6 +26,8 @@ import cn.edu.glut.component.dao.OrderItemDao;
 import cn.edu.glut.component.dao.ReceiverAddressDao;
 import cn.edu.glut.component.dao.UserDao;
 import cn.edu.glut.component.service.OrderService;
+import cn.edu.glut.exception.LackofstockException;
+import cn.edu.glut.exception.NoCommodityException;
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.CarExample;
 import cn.edu.glut.model.Commodity;
@@ -108,14 +110,14 @@ public class OrderServiceImpl implements OrderService {
 		return null;
 	}
 
-	public EnsureOrderVo ensureOrderInfoDirect(Integer userId, Long commodityId, Integer buyNumber) {
+	public EnsureOrderVo ensureOrderInfoDirect(Integer userId, Long commodityId, Integer buyNumber) throws NoCommodityException, LackofstockException  {
 		CommodityOrderVo commodityOrderVo = commodityDao.selectCommodityOrderVoById(commodityId);
 		// 商品状态不为1时，商品处于售完或者下架状态
 		if (commodityOrderVo.getCommodityStatus() != 1) {
-			return null;
+			throw new NoCommodityException();
 		}
 		if (buyNumber > commodityOrderVo.getCommodityCurrNum()) {
-			return null;
+			throw new LackofstockException();//库存不足
 		}
 		commodityOrderVo.setBuyNumber(buyNumber);
 		EnsureOrderVo ensureOrderVo = new EnsureOrderVo();
