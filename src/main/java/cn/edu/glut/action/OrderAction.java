@@ -118,6 +118,7 @@ public class OrderAction {
 		Order order=null;
 		JSONObject jsonObject =JSONObject.fromObject(orderJson);
 		order=(Order) JSONObject.toBean(jsonObject, Order.class);
+		DebugOut.print(order.getPayState());
 		JSONArray arry=JSONArray.fromObject(itemJson);
 		List<OrderItem> orderItems=(List<OrderItem>) JSONArray.toCollection(arry, OrderItem.class);
 		 
@@ -131,9 +132,10 @@ public class OrderAction {
 		
 		String ip=request.getRemoteAddr();
 		 //调用支付接口
-		Map<String, String> payResult= orderService.pay(order,user,ip);
+		Map<String, Object> payResult= orderService.pay(order,user,ip);
 		//添加key
 		payResult.put("key", AppUtil.mch_key);
+		payResult.put("order", order);
 		JSONObject obj=new JSONObject();
 		obj.accumulateAll(payResult);
 		try {
@@ -151,18 +153,23 @@ public class OrderAction {
 	 * @return
 	 */
 	@RequestMapping("cancelTheOrder")
-	public String cancelTheOrder(@RequestParam("orderId") String orderId, HttpServletResponse response) {
+	public String cancelTheOrder(@RequestParam("orderId") String orderId, @RequestParam(name="page" ,required=false)String page,HttpServletResponse response) {
+		DebugOut.print("进来了");
 		Long id = null;
 		try {
 			id = Long.valueOf(orderId);
 			boolean result = orderService.cancelTheOrder(id);
+			DebugOut.print(result);
+			if("true".equals(page)) {
+				return "cancel";
+			}
 			if (result) {
 				response.getWriter().println("success");
 			} else {
 				response.getWriter().println("error");
 			}
 		} catch (NumberFormatException | IOException e) {
-
+			e.printStackTrace();
 		}
 
 		return null;
@@ -219,6 +226,24 @@ public class OrderAction {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@RequestMapping("payState")
+	public void payState(@RequestParam("orderId")String orderId,HttpServletResponse response) {
+		 
+		DebugOut.print("请求结果");
+		boolean trandeState=orderService.getTradeState(orderId);
+		 response.setCharacterEncoding("utf-8");
+		 try {
+			if(trandeState) {
+				response.getWriter().print("SUCCESS");
+			}else {
+				response.getWriter().print("FAILL");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	}

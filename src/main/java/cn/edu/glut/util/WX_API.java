@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,10 +31,205 @@ public class WX_API {
 	//统一支付api
 	private final String SERVER_UNITE_PAY="https://api.mch.weixin.qq.com/pay/unifiedorder";
 	
+	//查询支付结果api
+	private final String ORDER_QUERY="https://api.mch.weixin.qq.com/pay/orderquery";
+	
+	
+	
+	
 	private SERVER_UNITE_PAY_Param serverPayParam;
 	
 	private SERVER_UNITE_PAY_Return serverPayReturn;
 	
+	private ORDER_QUERY_Param orderQueryParam;
+	
+	
+	
+	public void setOrderQueryParam(ORDER_QUERY_Param orderQueryParam) {
+		this.orderQueryParam = orderQueryParam;
+	}
+
+	/**
+	 * 查询支付结果api参数
+	 * @author jones
+	 *
+	 */
+	public class ORDER_QUERY_Param{
+		private String appid;
+		private String mch_id;
+		private String transaction_id; //wx订单号
+		private String nonce_str;
+		private String sign;
+		
+		public ORDER_QUERY_Param() {
+			appid=AppUtil.AppID;
+			mch_id=AppUtil.mch_id;
+			Random random=new Random(System.currentTimeMillis());
+			
+			StringBuffer sb=new StringBuffer();
+			for(int i=0;i<32;i++) {
+				int value=random.nextInt(25);
+				char ch=(char) ('A'+value);
+				sb.append(ch);
+			}
+			nonce_str=sb.toString();
+		}
+		
+		public String getTransaction_id() {
+			return transaction_id;
+		}
+		public void setTransaction_id(String transaction_id) {
+			this.transaction_id = transaction_id;
+		}
+		
+		public String getParam() {
+			Map<String, String> Params=new TreeMap<>();
+			Params.put("appid", appid);
+			Params.put("mch_id",mch_id );
+			Params.put("nonce_str", nonce_str);
+			Params.put("transaction_id", transaction_id);
+			//迭代map拼接字符串
+			Iterator<String> it=Params.keySet().iterator();
+			StringBuffer sb=new StringBuffer();
+			if(it.hasNext()) {
+				String key=it.next();
+				sb.append(key+"="+Params.get(key));
+			}
+			while(it.hasNext()) {
+				String key=it.next();
+				sb.append("&"+key+"="+Params.get(key));
+			}
+			//添加key
+			sb.append("&key="+AppUtil.mch_key);
+			//计算md5
+			Md5PasswordEncoder m5=new Md5PasswordEncoder();
+			System.out.println("md5 yuan:"+sb);
+			String sign=m5.encodePassword(sb.toString(), null);
+			this.sign=sign.toUpperCase();
+			
+			//构造xml
+			Document doc=DocumentHelper.createDocument();
+			Element root=doc.addElement("xml");
+			
+			it=Params.keySet().iterator();
+			
+			while(it.hasNext()) {
+				String key=it.next();
+				Element e=root.addElement(key);
+				e.setText(Params.get(key));
+				
+			}
+			
+			//添加签名
+			Element element=root.addElement("sign");
+			element.setText(this.sign);
+			
+			StringWriter sw = new StringWriter();
+	        OutputFormat format = OutputFormat.createPrettyPrint();
+	        format.setEncoding("utf-8");
+	        XMLWriter xw=new XMLWriter(sw,format);
+	        try {
+				xw.write(doc);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	       
+	        String xml=sw.toString();
+			return xml;
+		}
+		
+	}
+	/**
+	 * 查询支付结果api返回参数
+	 * @author jones
+	 *
+	 */
+	public class ORDER_QUERY_Return{
+		private String return_code; //状态码 	SUCCESS/FAIL 
+		private String return_msg;//返回信息
+		private String result_code;//业务结果
+		private String err_code;//错误代码
+		private String err_code_des;//错误代码描述
+		/**
+		 * SUCCESS—支付成功
+		 * REFUND—转入退款
+		 * NOTPAY—未支付
+		 * CLOSED—已关闭
+		 * REVOKED—已撤销（刷卡支付）
+		 * USERPAYING--用户支付中
+		 * PAYERROR--支付失败(其他原因，如银行返回失败)
+		 */
+		private String trade_state;
+		private String time_end;//支付完成时间
+		
+		/**
+		 * 从字符串中解析参数
+		 * @param data
+		 */
+		public ORDER_QUERY_Return(String data) {
+			try {
+				Document doc = DocumentHelper.parseText(data);
+				Element root = doc.getRootElement();
+				return_code=root.elementText("return_code");
+				return_msg=root.elementText("return_msg");
+				if("SUCCESS".equals(return_code)) {
+					result_code=root.elementText("result_code");
+					if("FAIL".equals(result_code)) {
+						err_code=root.elementText("err_code");
+						err_code_des=root.elementText("err_code_des");
+					}else {
+						trade_state=root.elementText("trade_state");
+						time_end=root.elementText("time_end");
+					}
+					
+				}
+				
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public String getReturn_code() {
+			return return_code;
+		}
+		public String getReturn_msg() {
+			return return_msg;
+		}
+		public String getResult_code() {
+			return result_code;
+		}
+		public String getErr_code() {
+			return err_code;
+		}
+		public String getErr_code_des() {
+			return err_code_des;
+		}
+		public String getTrade_state() {
+			return trade_state;
+		}
+		public String getTime_end() {
+			return time_end;
+		}
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+	}
 	
 	//api 参数
 	public class SERVER_UNITE_PAY_Param{
@@ -243,8 +439,8 @@ public class WX_API {
 					
 		}
 	
-		public Map<String, String> getInfo(){
-			Map<String, String> info=null;
+		public Map<String, Object> getInfo(){
+			Map<String, Object> info=null;
 			
 			if("SUCCESS".equals(return_code)&&"SUCCESS".equals(result_code)) {
 				info=new TreeMap<>();
@@ -419,4 +615,65 @@ public class WX_API {
 		return result.toString();
 	}
 	
+	/**
+	 * 获取支付结果
+	 * @return
+	 */
+	public String getTransacTionResult() {
+		try {
+			//准备参数
+			if(orderQueryParam==null) {
+				DebugOut.print("参数错误");
+				return "FAILL";
+			}
+			URL url=new URL(ORDER_QUERY);
+			HttpURLConnection con=(HttpURLConnection) url.openConnection();
+			con.setRequestMethod("POST");
+			con.setConnectTimeout(1000);
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.connect();
+			//传输数据
+			OutputStream out =con.getOutputStream();
+			out.write(orderQueryParam.getParam().getBytes("utf-8"));
+			out.flush();
+			out.close();
+			
+			//取回数据
+			InputStreamReader reader=new InputStreamReader(con.getInputStream(),"utf-8");
+			
+			BufferedReader br=new BufferedReader(reader);
+			
+			String line=br.readLine();
+			StringBuffer data=new StringBuffer();
+			while(line!=null) {
+				data.append(line);
+				line=br.readLine();
+			}
+			br.close();
+			//分析结果
+			ORDER_QUERY_Return apiReturn=new ORDER_QUERY_Return(data.toString());
+			
+			String trade_state=apiReturn.getTrade_state();
+			if(trade_state!=null) {
+				return trade_state;
+			}else {
+				DebugOut.print("解析api取回数据出错");
+				return "FAILL";
+			}
+			
+			
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return "";
+	}
 }

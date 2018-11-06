@@ -46,7 +46,8 @@ public interface OrderService {
 	boolean commitOrder(Order order, List<OrderItem> orderItems);
 	boolean cancelTheOrder(Long id);
 	List<OrderItem> getAllNotFinshed(Integer userId);
-	Map<String, String> pay(Order order, UserInfo user,String ip);
+	Map<String, Object> pay(Order order, UserInfo user,String ip);
 	String payResult(String string);
+	boolean getTradeState(String orderId);
 
 }

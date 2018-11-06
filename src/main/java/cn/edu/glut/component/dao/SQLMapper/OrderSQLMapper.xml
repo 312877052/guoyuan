@@ -118,4 +118,6 @@ FROM
 WHERE
 `order`.order_id = #{id};
 	</select>
+	
+	<select id="getTransactionId" parameterType="long"></select>
 </mapper>

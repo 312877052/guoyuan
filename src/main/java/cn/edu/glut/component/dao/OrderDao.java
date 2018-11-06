@@ -22,4 +22,6 @@ public interface OrderDao {
 
 	Order getOrderById(long id);
 
+	String getTransactionId(String orderId);
+
 }

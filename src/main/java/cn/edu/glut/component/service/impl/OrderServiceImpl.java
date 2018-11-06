@@ -192,7 +192,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Map<String, String> pay(Order order, UserInfo user, String ip) {
+	public Map<String, Object> pay(Order order, UserInfo user, String ip) {
 		WX_API payApi = new WX_API();
 		WX_API.SERVER_UNITE_PAY_Param param = payApi.new SERVER_UNITE_PAY_Param();
 
@@ -260,6 +260,32 @@ public class OrderServiceImpl implements OrderService {
 		String res="<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 		
 		return res;
+	}
+
+	
+	/**
+	 * 查询是否交易成功
+	 */
+	public boolean getTradeState(String orderId) {
+		WX_API api=new WX_API();
+		WX_API.ORDER_QUERY_Param param=api.new ORDER_QUERY_Param();
+		//从数据库中查询交易号
+		DebugOut.print("orderId: "+orderId);
+		Order order=null;
+		order=orderDao.getOrderById(Long.parseLong(orderId));
+		if(order==null) {
+			DebugOut.print("出错");
+			return false;
+		}
+		String transaction_id=order.getTransactionNum();
+		param.setTransaction_id(transaction_id);
+		api.setOrderQueryParam(param);
+		String transacTionResul=api.getTransacTionResult();
+		DebugOut.print("交易结果"+transacTionResul);
+		if("SUCCESS".equals(transacTionResul)) {
+			return true;
+		}
+		return false;
 	}
 
 }

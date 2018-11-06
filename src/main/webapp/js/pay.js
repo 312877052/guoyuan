@@ -9,7 +9,9 @@ function pay(){
 	order.preferFee = $("#preferFee").text();
 	order.postFee = $("#postFee").text();
 	order.payment = $("#totalFee").text();
-	order.payState = 1;// 在线
+	//payment_type
+	order.paymentType=1;// 在线
+	order.payState = 0;
 	order.receiverName = $("#per").text();
 	order.receiverMobile = $("#phone").text();
 	order.receiverAddress = $("#ad").text();
@@ -38,9 +40,9 @@ function pay(){
 		data : {"order":new String(JSON.stringify(order)),"list":JSON.stringify(item)},
 		dataType : 'json',
 		success : function(data) {
-			console.log(data.appId)
+			console.log(data)
 			console.log("订单提交成功")
-			
+			order=data.order;
 			if (typeof WeixinJSBridge == "undefined"){
 				   if( document.addEventListener ){
 				       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
@@ -83,11 +85,31 @@ function onBridgeReady(data){
 	         "paySign":sign //微信签名 
 	      },
 	      function(res){
-	    	  alert("75:"+res.err_msg)
+	    	  if(res.err_msg=='get_brand_wcpay_request:cancel'){
+	    		  var url="http://hy.aliquan.top/guoyuan/order/cancelTheOrder.action?orderId="+data.order.orderId+"&page=true";
+	    		  window.location.href=url;
+	    	  }
 	      if(res.err_msg == "get_brand_wcpay_request:ok" ){
 	      // 使用以上方式判断前端返回,微信团队郑重提示：
-	            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-	    	  alert(res.err_msg)
+	            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。paySuccess
+	    	 //ajax请求支付结果
+	    	  $.ajax("http://hy.aliquan.top/guoyuan/order/payState.action",{
+	    		  data:{'orderId':data.order.orderId},
+	    		  type:"POST",
+	    		  success:function(data){
+	    			  if(data=='SUCCESS'){
+	    				  location.href="http://hy.aliquan.top/guoyuan/common/paySuccess.action";
+	    			  }
+	    			  else{
+	    				  alert("支付失败");
+	    			  }
+	    		  },
+	    		  error:function(data){
+	    			  alert("error"+data.status)
+	    		  }
+	    		  
+	    	  })
+	    	  
 	      } 
 	   }); 
 	}
