@@ -96,7 +96,7 @@ function onBridgeReady(data){
 	    	  $.ajax("http://hy.aliquan.top/guoyuan/order/payState.action",{
 	    		  data:{'orderId':data.order.orderId},
 	    		  type:"POST",
-	    		  success:function(data){
+	    		  success:function(data){ 
 	    			  if(data=='SUCCESS'){
 	    				  location.href="http://hy.aliquan.top/guoyuan/common/paySuccess.action";
 	    			  }
