@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.jms.MessageConsumer;
 
-import org.json.JSONObject;
 
 import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
+import net.sf.json.JSONObject;
 /**
  * 
  * @author 于金彪
@@ -53,6 +53,6 @@ public interface UserService {
 
 	UserInfo getUserByOpenId(String openId);
 
-	JSONObject queryExpressInfo(String number, String exp);
+	String queryExpressInfo(String number, String exp);
 	
 }

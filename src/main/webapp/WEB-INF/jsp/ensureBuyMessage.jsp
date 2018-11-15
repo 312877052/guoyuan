@@ -90,41 +90,7 @@
     -->
 		<div id="nodes">
 		<!-- 商品节点 -->
-			<div id="ensureMesTreeDiv" class="mui-row treeListDiv">
-				<img alt="${ensureOrderVo.commodityOrderVo.commodityId }"
-					id="commodityId"
-					src="/pic/${ensureOrderVo.commodityOrderVo.commodityMainPho }" />
-				<div class="mui-col-sm-4 mui-col-xs-4">
-					<p>￥${ensureOrderVo.commodityOrderVo.commodityPrice }</p>
-				</div>
-				<div class="mui-col-sm-4 mui-col-xs-4">
-					<p>${ensureOrderVo.commodityOrderVo.commodityName }</p>
-				</div>
-				<div class="mui-col-sm-4 mui-col-xs-4">
-					<p>
-						<span id="buyNum">${ensureOrderVo.commodityOrderVo.buyNumber }</span>株
-					</p>
-				</div>
-			</div>
-
-
-			<div id="ensureMesTreeDiv" class="mui-row treeListDiv">
-				<img alt="${ensureOrderVo.commodityOrderVo.commodityId }"
-					id="commodityId"
-					src="/pic/${ensureOrderVo.commodityOrderVo.commodityMainPho }" />
-				<div class="mui-col-sm-4 mui-col-xs-4">
-					<p>￥${ensureOrderVo.commodityOrderVo.commodityPrice }</p>
-				</div>
-				<div class="mui-col-sm-4 mui-col-xs-4">
-					<p>${ensureOrderVo.commodityOrderVo.commodityName }</p>
-				</div>
-				<div class="mui-col-sm-4 mui-col-xs-4">
-					<p>
-						<span id="buyNum">${ensureOrderVo.commodityOrderVo.buyNumber }</span>株
-					</p>
-				</div>
-			</div>
-
+			
 		</div>
 
 		<!--
@@ -194,6 +160,8 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var noAddr=false;
+		var pageData=${pageData}
 		//获取数据
 		function getAddress() {
 			var address;
@@ -217,56 +185,9 @@
 		
 		var flag = true
 		//操作节点添加弹出层
-		$(function() {
-			if (flag) {
-				//取出收货地址数据
-				var res = getAddress();
-				//弹出层
-				var popAddress;
-				var deviceHeight = document.body.offsetHeight;
-
-				var popAddressCss = "'height:" + deviceHeight / 2
-						+ "px;background-color: white;'";
-				popAddress = $("<div id='popAddress' class='box mui-popover mui-popover-action mui-popover-bottom' style="+popAddressCss+"></div>")
-				var divtitle = $('<div style="text-align: center;background-color: #007AFF;">收货地址</div>');
-				popAddress.append(divtitle)
-				//ul
-				var ul = $('<ul class="mui-table-view mui-table-view-radio"></ul>');
-				//循环li
-				for (var i = 0; i < res.length; i++) {
-					var html = res[i].receiverState + res[i].receiverCity
-							+ res[i].receiverDistrict + res[i].receiverAddress;
-					html = '<a class="mui-navigate-right">' + html + '</a>'
-					if (i == 0) {
-						var li = $('<li class="mui-table-view-cell mui-selected" style="text-align: left;color: black;"></li>');
-						li.html(html);
-
-					} else {
-						var li = $('<li class="mui-table-view-cell" style="text-align: left;color: black;"></li>');
-						li.html(html);
-					}
-					li.val(res[i].receiverAddressId);
-					ul.append(li);
-
-				}
-
-				popAddress.append(ul)
-				$("body").append(popAddress)
-				document.querySelector('.mui-table-view.mui-table-view-radio')
-						.addEventListener('selected', function(e) {
-							var value = e.detail.el.value
-							$("#per").html(res[value].receiverName)
-							$("#phone").html(res[value].receiverMobile)
-							$("#ad").html($($(e.detail.el).html()).html())
-							$("body").click()
-						});
-				flag = false;
-			} else {
-
-			}
-		});
+		
 	</script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/ensureBuyMessage.js"></script>
 </body>
 
 

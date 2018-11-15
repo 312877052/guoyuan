@@ -22,21 +22,23 @@
         	时间：2018-09-02
         	描述：底部选项卡
         -->
-		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
-				<img id="homeIcon" class="bottomNavIcon" src="${pageContext.request.contextPath }/img/资源 14-100.jpg" />
+			<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="../common/home.action">
+				<img class="bottomNavIcon" src="../img/navBottom/首页.png" />
 			</a>
-			<a class="mui-tab-item" href="video.html">
-				<img id="videoIcon" class="bottomNavIcon" src="${pageContext.request.contextPath }/img/资源 10-100.jpg" />
+			<a class="mui-tab-item" href="../common/video.action">
+				<img class="bottomNavIcon" src="../img/navBottom/视频2.png" />
 			</a>
-			<a class="mui-tab-item" href="buyList.html">
-				<img id="buyIcon" class="bottomNavIcon " src="${pageContext.request.contextPath }/img/资源 11-100.jpg" />
-				<span class="mui-badge mui-badge-success">12</span>
+			<a class="mui-tab-item" href="../user/buyList.action">
+				<img class="bottomNavIcon " src="../img/navBottom/列表2.png" />
+				
 			</a>
-			<a class="mui-tab-item" href="my.html">
-				<img id="myIcon" class="bottomNavIcon" src="${pageContext.request.contextPath }/img/资源 13-100.jpg" />
+			<a class="mui-tab-item" href="../common/my.action">
+				<img class="bottomNavIcon" src="../img/navBottom/我的2.png" />
 			</a>
 		</nav>
+
+
 
 		<!--
     	作者：abusuper@outlook.com

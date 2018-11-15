@@ -5,10 +5,13 @@ import java.util.Map;
 
 import cn.edu.glut.exception.LackofstockException;
 import cn.edu.glut.exception.NoCommodityException;
+import cn.edu.glut.model.BuyList;
 import cn.edu.glut.model.Car;
+import cn.edu.glut.model.Commodity;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
 import cn.edu.glut.model.OrderItem;
+import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
 
 public interface OrderService {
@@ -49,5 +52,7 @@ public interface OrderService {
 	Map<String, Object> pay(Order order, UserInfo user,String ip);
 	String payResult(String string);
 	boolean getTradeState(String orderId);
+	List<Commodity> getCommoditieList(List<BuyList> buylist);
+	ReceiverAddress getDefaultAddr(Integer userId);
 
 }

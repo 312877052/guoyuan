@@ -53,8 +53,9 @@
 	<!-- 拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
+		
 			<mvc:mapping path="/common/my.action"/>
-			
+			<mvc:mapping path="/order/ensureOrderDirect.action"/>
 			<bean class="cn.edu.glut.interceptor.LoginCheck"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

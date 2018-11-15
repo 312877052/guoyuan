@@ -22,11 +22,12 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import cn.edu.glut.component.dao.ReceiverAddressMapper;
 import cn.edu.glut.component.dao.UserDao;
@@ -38,6 +39,8 @@ import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.AppUtil;
 import cn.edu.glut.util.DebugOut;
 import cn.edu.glut.util.SendSMSCode;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;;
 /**
  * 
  * @author jones
@@ -119,8 +122,24 @@ public class UserServiceIml implements UserService{
 
 	@Override
 	public List<ReceiverAddress> addAddr(ReceiverAddress ra) {
-		rece.insert(ra);
+		//取消默认标志
+		
 		ReceiverAddressExample example=new ReceiverAddressExample();
+		example.createCriteria().andIsDefaultAddressEqualTo((byte) 1).andUserIdEqualTo(ra.getUserId());
+		List<ReceiverAddress> defaultAddr =rece.selectByExample(example);
+		if(defaultAddr==null) {
+			DebugOut.print("异常");
+		}
+		if(defaultAddr.size()>1) {
+			DebugOut.print("出现多个默认收货地址:uid="+ra.getUserId());
+		}else if(defaultAddr.size()<1) {
+			DebugOut.print("没有默认收货地址:UID="+ra.getUserId());
+		}
+		defaultAddr.get(0).setIsDefaultAddress((byte)0);
+		rece.updateByPrimaryKey(defaultAddr.get(0));
+		example.clear();
+		ra.setIsDefaultAddress((byte)1);
+		rece.insert(ra);
 		example.createCriteria().andUserIdEqualTo(ra.getUserId());
 		List<ReceiverAddress> addrs=rece.selectByExample(example);
 		return addrs;
@@ -172,7 +191,7 @@ public class UserServiceIml implements UserService{
 			reader.close();
 			in.close(); 
 			DebugOut.print("返回数据"+new String(buffer));
-			JSONObject data=new JSONObject(new String(buffer));
+			JSONObject data=JSONObject.fromObject(new String(buffer));
 			openId=data.getString("openid");
 			
 		} catch (MalformedURLException e) {
@@ -192,10 +211,10 @@ public class UserServiceIml implements UserService{
 	}
 
 	@Override
-	public JSONObject queryExpressInfo(String number,String exp) {
+	public String queryExpressInfo(String number,String exp) {
 		String api="http://api.56jiekou.com/index.php/openapi-api.html?key="+AppUtil.KEY+"&num="+number;
 		if(exp!=null) api=api+"&exp="+exp;
-		JSONObject obj=null;
+		StringBuffer sb=new StringBuffer();
 		try {
 			URL apiUrl=new URL(api);
 			HttpURLConnection con=(HttpURLConnection) apiUrl.openConnection();
@@ -203,21 +222,21 @@ public class UserServiceIml implements UserService{
 			InputStreamReader read=new InputStreamReader(in,"utf-8");
 			char[] buffer=new char[1024];
 			int a=read.read(buffer);
-			StringBuffer sb=new StringBuffer();
+			
 			while(a!=-1) {
 				sb.append(buffer);
 				buffer=new char[buffer.length];
 				a=read.read(buffer);
 				
 			}
-			obj=new JSONObject(new String(buffer).trim());
-			System.out.println(obj);
+			
+			System.out.println(sb.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return obj;
+		return sb.toString();
 	}
 
 	

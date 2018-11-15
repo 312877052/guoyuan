@@ -28,7 +28,7 @@
 			<a class="mui-tab-item" href="${pageContext.request.contextPath}/common/video.action">
 				<img id="videoIcon" class="bottomNavIcon" src="${pageContext.request.contextPath}/img/资源 10-100.jpg" />
 			</a>
-			<a class="mui-tab-item" href="${pageContext.request.contextPath}/common/buyList.action">
+			<a class="mui-tab-item" href="${pageContext.request.contextPath}/user/buyList.action">
 				<img id="buyIcon" class="bottomNavIcon " src="${pageContext.request.contextPath}/img/资源 11-100.jpg" />
 				<span class="mui-badge mui-badge-success">12</span>
 			</a>
@@ -52,21 +52,21 @@
 			<table class="myNavIconFirst">
 				<tr>
 					<td>
-						<a href="${pageContext.request.contextPath}/common/star.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 1-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/user/star.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 1-100.jpg" /><br /></a>
 					</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/common/buyCar.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 2-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/user/buyCar.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 2-100.jpg" /><br /></a>
 					</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/common/money.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 5-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/user/money.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 5-100.jpg" /><br /></a>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<a href="${pageContext.request.contextPath}/common/address.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 4-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/user/address.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 4-100.jpg" /><br /></a>
 					</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/common/Setting.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 3-100.jpg" /><br /></a>
+						<a href="${pageContext.request.contextPath}/user/Setting.action"><img class="myIcon" src="${pageContext.request.contextPath}/img/资源 3-100.jpg" /><br /></a>
 					</td>
 				</tr>
 			</table>

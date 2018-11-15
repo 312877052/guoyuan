@@ -28,6 +28,7 @@ import cn.edu.glut.component.dao.UserDao;
 import cn.edu.glut.component.service.OrderService;
 import cn.edu.glut.exception.LackofstockException;
 import cn.edu.glut.exception.NoCommodityException;
+import cn.edu.glut.model.BuyList;
 import cn.edu.glut.model.Car;
 import cn.edu.glut.model.CarExample;
 import cn.edu.glut.model.Commodity;
@@ -286,6 +287,27 @@ public class OrderServiceImpl implements OrderService {
 			return true;
 		}
 		return false;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public List<Commodity> getCommoditieList(List<BuyList> buylist) {
+		//取出所有商品id
+		List<Long> idList=new ArrayList<>();
+		for (BuyList buyList2 : buylist) {
+			idList.add(buyList2.getCommodityId());
+		}
+		//查询出所有商品信息
+		List<Commodity> commodities=commodityDao.getCommodityListByIds(idList);
+		return commodities;
+	}
+
+	@Override
+	public ReceiverAddress getDefaultAddr(Integer userId) {
+		
+		return receiverAddressDao.selectAddressByDefault(userId);
 	}
 
 }

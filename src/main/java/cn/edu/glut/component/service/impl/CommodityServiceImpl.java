@@ -112,5 +112,11 @@ public class CommodityServiceImpl implements CommodityService {
 		commodityDetailVo.setCommoditySubPho4(commodity.getCommoditySubPho4());
 		return commodityDetailVo;
 	}
+
+	@Override
+	public Commodity getCommodityInfo(Long commodityId) {
+		
+		return commodityDao.getCommodityById(commodityId);
+	}
 	
 }

@@ -16,20 +16,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.cj.xdevapi.JsonArray;
+
 import cn.edu.glut.component.dao.OrderDao;
+import cn.edu.glut.component.service.CommodityService;
 import cn.edu.glut.component.service.OrderService;
+import cn.edu.glut.component.service.impl.CommodityServiceImpl;
 import cn.edu.glut.exception.LackofstockException;
 import cn.edu.glut.exception.NoCommodityException;
+import cn.edu.glut.model.BuyList;
 import cn.edu.glut.model.Car;
+import cn.edu.glut.model.Commodity;
 import cn.edu.glut.model.EnsureOrderVo;
 import cn.edu.glut.model.Order;
 import cn.edu.glut.model.OrderItem;
+import cn.edu.glut.model.ReceiverAddress;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.AppUtil;
 import cn.edu.glut.util.DebugOut;
@@ -45,10 +53,13 @@ public class OrderAction {
 
 	@Resource(name = "orderService")
 	private OrderService orderService;
+	
+	@Resource(name="commodityService")
+	private CommodityService commodService;
 
 	/**
 	 * 确认订单信息展示
-	 * 
+	 * 直接购买 传购买数量 和商品id
 	 * @param session
 	 * @param commodityId
 	 * @param buyMesNumber
@@ -56,25 +67,26 @@ public class OrderAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/ensureOrderDirect")
-	public String ensureOrderDirect(HttpSession session, Long commodityId, @RequestParam("buyNumber")String buyNumber, Model model) {
+	public String ensureOrderDirect(HttpSession session, Model model,HttpServletRequest request, BuyList buy) {
+		
+		
 		// TODO 根据session获取用户id
 		UserInfo user=(UserInfo)session.getAttribute("user");
-		EnsureOrderVo ensureOrderVo=null;
+		//获取商品信息表
+		Commodity commodity = commodService.getCommodityInfo(buy.getCommodityId());
+
+		//转成json
+		JSONObject commodityJson=JSONObject.fromObject(commodity);
+		JSONObject obj=new JSONObject();
+		obj.put("CommodityInfo", commodityJson);
+		obj.put("buyInfo", JSONArray.fromObject(buy));
+		//获取默认收货地址
+		ReceiverAddress addr= orderService.getDefaultAddr(user.getUserId());
+
+		obj.put("defaultAddr", addr);
 		
-		try {
-			ensureOrderVo = orderService.ensureOrderInfoDirect(user.getUserId(), commodityId, Integer.valueOf(buyNumber));
-		} catch (NumberFormatException e) {
-			
-		} catch (NoCommodityException e) {
-			model.addAttribute("error","商品已下架");
-			return "treedetail";
-		} catch (LackofstockException e) {
-			model.addAttribute("error","库存不足");
-			return "treedetail";
-		}
 		
-		
-		model.addAttribute("ensureOrderVo", ensureOrderVo);
+		model.addAttribute("pageData", obj.toString());
 		return "ensureBuyMessage";
 	}
 

@@ -10,5 +10,18 @@ $("#buy").on('tap',function(){
 	else if(buyNum>tree.commodityCurrNum){
 		alert('库存不足');return;
 	}
-	form.submit();
+	//ajax提交表单
+	$.ajax("/guoyuan/order/ensureOrderDirect.action",{
+		method:'POST',
+		data:form.serialize(),
+		dataType:"json",
+		success:function(data){ 
+			alert("null")
+		},
+		error:function(data){
+			var iframe=$('<iframe id="if_content" name="if_content" width="100%" onload="this.height=if_content.document.body.scrollHeight" frameborder="0" ></iframe>');
+			iframe[0].srcdoc=data.responseText;
+			$("body").html($(iframe));
+		}
+	})
 })

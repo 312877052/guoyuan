@@ -135,17 +135,20 @@ var m=1;
 				"tel":tel,
 				"pwd":pwd
 			},
+			dataType:'json',
 			async: false,
 			success:function(data){
-				if(data.indexOf("true")!=-1){
-					mui.alert("登陆成功","提示",function(){
+				if(data.return_code=='SUCCESS'){
+					mui.toast("登录成功")
+					
 						mui.openWindow({
-							 url:'/guoyuan/common/my.action',
+							 url:data.data.url,
+							 data,
 							 id:'my.jsp'
 							 });
-					})
 					
-				}else if(data.indexOf("密码错误")){
+					
+				}else{
 					mui.toast("用户名或密码错误")
 					return false;
 				}
@@ -153,7 +156,7 @@ var m=1;
 			
 			
 		})
-		return true;
+		return false;
 	}
 	/**
 	 * 

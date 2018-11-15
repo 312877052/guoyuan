@@ -31,7 +31,7 @@
 			<a class="mui-tab-item" href="../common/video.action">
 				<img class="bottomNavIcon" src="../img/navBottom/视频2.png" />
 			</a>
-			<a class="mui-tab-item" href="../common/buyList.action">
+			<a class="mui-tab-item" href="../user/buyList.action">
 				<img class="bottomNavIcon " src="../img/navBottom/列表2.png" />
 				
 			</a>
@@ -87,9 +87,9 @@
 						</tr>
 						<tr>
 						<td>
-							<a id="starHomeIcon" href="../common/star.action"><img src="../img/home/收藏Icon.png" style="width: 100%;" /></a></td>
+							<a id="starHomeIcon" href="../user/star.action"><img src="../img/home/收藏Icon.png" style="width: 100%;" /></a></td>
 						<td>
-							<a id="messageHomeIcon" href="../common/Message.action"> <img src="../img/home/消息Icon.png" style="width: 100%;" /></a></td>
+							<a id="messageHomeIcon" href="../user/Message.action"> <img src="../img/home/消息Icon.png" style="width: 100%;" /></a></td>
 						<td>
 							<a id="" href="#"><img src="../img/home/涨知识Icon.png" style="width: 100%;" /></a></td>
 					</tr>

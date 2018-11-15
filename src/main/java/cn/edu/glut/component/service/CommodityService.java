@@ -30,5 +30,6 @@ public interface CommodityService {
 	 * @return
 	 */
 	public CommodityDetailVo getCommodityDetailById(Long commodityId);
+	public Commodity getCommodityInfo(Long commodityId);
 
 }

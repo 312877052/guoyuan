@@ -56,5 +56,12 @@ public interface CommodityDao {
 	 * @return
 	 */
 	int updataCommodityNum(@Param("commodityId") Long commodityId,@Param("currnum") Integer currnum);
+	/**
+	 *根据id表查询出所有商品信息
+	 * @param idList
+	 * @return
+	 */
+	List<Commodity> getCommodityListByIds(List<Long> idList);
+	Commodity getCommodityById(Long commodityId);
 	
 }

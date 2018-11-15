@@ -3,34 +3,38 @@ package cn.edu.glut.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
-import javax.jms.Connection;
-import javax.jms.Destination;
 import javax.jms.MessageConsumer;
-import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
+
+import cn.edu.glut.component.service.OrderService;
 import cn.edu.glut.component.service.UserService;
 import cn.edu.glut.model.ReceiverAddress;
+import cn.edu.glut.model.ServerResponse;
 import cn.edu.glut.model.UserGrant;
 import cn.edu.glut.model.UserInfo;
 import cn.edu.glut.util.DebugOut;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 /**
  * 
@@ -43,6 +47,9 @@ public class UserAction {
 
 	@Resource(name = "userService")
 	UserService userService;
+	
+	@Resource(name = "orderService")
+	private OrderService orderService;
 	
 	Logger log = LogManager.getLogger();
 	Logger record = LogManager.getLogger("recordFile");
@@ -232,12 +239,16 @@ public class UserAction {
 	 */
 	@RequestMapping(value = "login")
 	public String login(@RequestParam(name = "tel") String tel, @RequestParam(name = "pwd") String pwd,
-			HttpSession session, HttpServletResponse response) {
-		ModelAndView mv = new ModelAndView();
+			HttpSession session, HttpServletResponse response,HttpServletRequest request) {
+		//服务器响应对象
+		ServerResponse sr=new ServerResponse();
+		
 		UserInfo user = userService.getUserByTel(tel);
 		if(user==null) {
 			try {
-				response.getWriter().print("密码错误");
+				sr.setReturn_code("FAIL");
+				sr.setReturn_msg("密码错误");
+				response.getWriter().print(JSONObject.fromObject(sr));
 				return null;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -255,11 +266,45 @@ public class UserAction {
 						//创建一个jms消费者
 						MessageConsumer consumer=userService.registMessageConsumer(user);
 						session.setAttribute("jmsConsumer", consumer);
-						pw.print("true");
+						
+						
+						//从session中取出目标路径
+						String url =(String) session.getAttribute("targetPath");
+						//取出参数
+						String para= (String) session.getAttribute("targetParam");
+						JSONObject targetPara=JSONObject.fromObject(para);
+						
+						Iterator<String> keys=null;
+						if(para!=null)
+						keys=targetPara.keys();
+						
+						StringBuffer sb=new StringBuffer("?login=true");
+						
+						while(keys!=null&&keys.hasNext()) {
+							String key=keys.next();
+							System.out.println(key);
+							JSONArray array=((JSONArray)targetPara.get(key));
+							List values= JSONArray.toList(array,"",new JsonConfig());
+							for (int i = 0; i < values.size(); i++) {
+								sb.append("&"+key+"="+values.get(i));
+							}
+						}
+						url=url+sb.toString();
+						url=request.getContextPath()+url;
+						DebugOut.print("登录成功重定向到目标路径 :"+url);
+						sr.setReturn_msg("登录成功,重定向至目标路径");
+						sr.setReturn_code("SUCCESS");
+						Map data=sr.getData();
+						data.put("url", url);
+						sr.setData(data);
+						
+						pw.print(net.sf.json.JSONObject.fromObject(sr));
 						return null;
 					} else {
 						// 密码错误
-						pw.print("密码错误");
+						sr.setReturn_code("FAIL");
+						sr.setReturn_msg("密码错误");
+						pw.print(JSONObject.fromObject(sr));
 						return null;
 					}
 				}
@@ -335,10 +380,9 @@ public class UserAction {
 		ra.setUserId(user.getUserId());
 		ModelAndView mv=new ModelAndView();
 		List<ReceiverAddress> addrs=userService.addAddr(ra);
-		System.out.println(ra.getReceiverAddressId());
-		
+		DebugOut.print(ra.getReceiverAddressId());
 		mv.setViewName("address");
-		mv.addObject("addrs", addrs);
+		mv.addObject("addrs", JSONArray.fromObject(addrs).toString());
 		
 		
 		return mv;
@@ -354,8 +398,8 @@ public class UserAction {
 		UserInfo user = (UserInfo) session.getAttribute("user");
 		List<ReceiverAddress> addrs= userService.getReceiverAddress(user.getUserId());
 		//返回json数据
+		JSONArray result=JSONArray.fromObject(addrs);
 		if(forJson!=null&&forJson.trim().equals("true")) {
-			JSONArray result=new JSONArray(addrs);
 			try {
 				response.getWriter().println(result);
 				
@@ -365,7 +409,7 @@ public class UserAction {
 			return null;
 		}
 		ModelAndView mv=new ModelAndView("address");
-		mv.addObject("addrs",addrs);
+		mv.addObject("addrs",result.toString());
 		return mv;
 	}
 
@@ -378,13 +422,32 @@ public class UserAction {
 	@RequestMapping("expressInfo")
 	public ModelAndView expressInfo(@RequestParam("number")String number,@RequestParam("exp") String exp,HttpServletResponse response) {
 		
-		JSONObject expressInfo=userService.queryExpressInfo(number,exp);
+		String expressInfo=userService.queryExpressInfo(number,exp);
 		try {
-			response.getWriter().println(expressInfo);
+			response.getWriter().print(expressInfo);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * 获取默认收货地址
+	 * @param response
+	 * @param session
+	 */
+	@RequestMapping("getDefaultAddress")
+	public void getDefaultAddress(HttpServletResponse response,HttpSession session) {
+		UserInfo user =(UserInfo)session.getAttribute("user");
+		ReceiverAddress addr= orderService.getDefaultAddr(user.getUserId());
+		JSONObject obj=JSONObject.fromObject(addr);
+		try {
+			response.getWriter().print(obj.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return;
 	}
 }

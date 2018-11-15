@@ -72,7 +72,16 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/ydui.js"></script>
 <script type="text/javascript">
 $("#addAddressSave").on("tap",function(){
-	$("form").submit();
+	mui.ajax("/guoyuan/user/addShippingAddr.action",{
+		data:$("form").serialize(),
+		success:function(){
+			close();
+		},
+		error:function(){
+			mui.toast('添加失败');
+		}
+	})
+	
 })
 !function () {
 	var $target = $('#J_Address');

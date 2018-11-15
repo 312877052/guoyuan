@@ -75,4 +75,59 @@
   <update id="updataCommodityNum">
   	UPDATE commodity_info SET commodity_currnum = #{currnum,jdbcType=INTEGER} WHERE commodity_id = #{commodityId,jdbcType=BIGINT}
   </update>
+  
+  <select id="getCommodityListByIds" parameterType="List" resultMap="commodityMap">
+  SELECT
+	commodity_info.commodity_id,
+	commodity_info.cid,
+	commodity_info.commodity_name,
+	commodity_info.commodity_term,
+	commodity_info.commodity_num,
+	commodity_info.commodity_video_url,
+	commodity_info.commodity_price,
+	commodity_info.commodity_product,
+	commodity_info.commodity_status,
+	commodity_info.commodity_main_pho,
+	commodity_info.commodity_sub_pho1,
+	commodity_info.commodity_sub_pho2,
+	commodity_info.commodity_sub_pho3,
+	commodity_info.commodity_sub_pho4,
+	commodity_info.commodity_currnum 
+FROM
+	commodity_info 
+WHERE
+	commodity_info.commodity_id IN 
+	
+	<foreach collection="list" open="(" close=")" item="id" separator="," index="index">
+	#{id}
+	</foreach>
+	
+	
+  
+  </select>
+  
+  <select id="getCommodityById" resultMap="commodityMap" parameterType="long">
+  SELECT
+	commodity_info.commodity_id,
+	commodity_info.cid,
+	commodity_info.commodity_name,
+	commodity_info.commodity_term,
+	commodity_info.commodity_num,
+	commodity_info.commodity_video_url,
+	commodity_info.commodity_price,
+	commodity_info.commodity_product,
+	commodity_info.commodity_status,
+	commodity_info.commodity_main_pho,
+	commodity_info.commodity_sub_pho1,
+	commodity_info.commodity_sub_pho2,
+	commodity_info.commodity_sub_pho3,
+	commodity_info.commodity_sub_pho4,
+	commodity_info.commodity_currnum 
+FROM
+	commodity_info 
+WHERE
+	commodity_info.commodity_id = #{commodityId}
+  
+  </select>
+  
 </mapper>
